@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Manager {
+  id           Int    @id @default(autoincrement())
+  name         String
+  email        String @unique
+  password     String
+  registration String @unique
+  team         Team[]
+}
+
+model Employee {
+  id            Int             @id @default(autoincrement())
+  name          String
+  type          Int
+  registration  String          @unique
+  password      String
+  date_started  DateTime
+  team          Team?
+  vacation      Vacation[]
+  team_employee Team_employee[]
+  vacation_data Vacation_data?
+}
+
+model Team {
+  id            Int             @id @default(autoincrement())
+  manager       Manager         @relation(fields: [manager_id], references: [id])
+  manager_id    Int             @unique
+  employee      Employee        @relation(fields: [employee_id], references: [id])
+  employee_id   Int             @unique
+  name          String
+  sub_team      String?
+  vacation      Vacation[]
+  team_employee Team_employee[]
+}
+
+model Vacation {
+  id          Int      @id @default(autoincrement())
+  Team        Team     @relation(fields: [team_id], references: [id])
+  team_id     Int
+  Employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id Int
+  date_start  DateTime
+  date_end    DateTime
+  status      Int      @default(0)
+}
+
+model Team_employee {
+  team        Team     @relation(fields: [team_id], references: [id])
+  team_id     Int
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id Int
+
+  @@id([team_id, employee_id])
+}
+
+model Vacation_data {
+  id                 Int       @id @default(autoincrement())
+  employee           Employee  @relation(fields: [employee_id], references: [id])
+  employee_id        Int       @unique
+  days_remaining     Int       @default(30)
+  date_last_vacation DateTime?
+  fortnigth          Boolean?
+}
+
+// enum Role {
+//   MANAGER
+//   EMPLOYEE
+// }
+
+// enum Type {
+//   CLT
+//   PJ
+// }
