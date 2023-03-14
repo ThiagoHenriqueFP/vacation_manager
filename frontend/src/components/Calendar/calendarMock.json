@@ -1,0 +1,32 @@
+{
+  "vacations": [{
+    "event_id": 1,
+    "title": "Allan Crasso",
+    "start": "03/05/2023",
+    "end": "03/22/2023"
+  },
+  {
+    "event_id": 2,
+    "title": "Beto Rodrigues",
+    "start": "04/05/2023",
+    "end": "04/22/2023"
+  },
+  {
+    "event_id": 3,
+    "title": "Carlos Junior",
+    "start": "05/05/2023",
+    "end": "05/22/2023"
+  },
+  {
+    "event_id": 4,
+    "title": "Euler dos Santos",
+    "start": "07/05/2023",
+    "end": "07/22/2023"
+  },
+  {
+    "event_id": 5,
+    "title": "Fabio Filho",
+    "start": "10/05/2023",
+    "end": "10/22/2023"
+  }]
+}
