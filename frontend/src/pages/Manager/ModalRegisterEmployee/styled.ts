@@ -18,6 +18,8 @@ export const Container = styled.div`
 
   height:100%;
   width: 100%;
+
+  z-index: 1;
 `;
 
 export const Register = styled.form`
