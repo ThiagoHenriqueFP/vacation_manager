@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalRegisterEmployee from '../../pages/Manager/ModalRegisterEmployee';
+import { Link } from 'react-router-dom';
 import Button from '../DefaultButton';
 import { Avatar, Info, NavContainer, Separator } from './styled';
 
@@ -19,14 +19,8 @@ export default function AssideNavBar({
   avatar,
   name,
   team,
-  type,
-  employeeOnTeam,
-  employeeOnVacation,
   subTeam,
 }:IAsideNavBar ) {
-
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-
 
   return (
     <NavContainer>
@@ -36,18 +30,9 @@ export default function AssideNavBar({
         <Info>Equipe: <Info className='strong'>{team} {subTeam}</Info> </Info>
       </Separator>
 
-      <Separator>
-        {type
-          ? <Info small>Colaboradores na equipe: {employeeOnTeam}</Info>
-          : ''
-        }
+      <Link to='details'><Button>Gerenciar Colaboradores</ Button></Link>
 
-        {type
-          ? <Info small>Colaboradores de ferias: {employeeOnVacation}</Info>
-          : ''
-        }
-      </Separator>
-
+      {/* Button to ModalEmployeeRegister
       <Button
         cover={false}
         onClick={()=> {
@@ -56,10 +41,11 @@ export default function AssideNavBar({
       >
         Cadastrar Colaborador
       </Button>
+
       <ModalRegisterEmployee
         onClose={() => setIsVisible(false)}
         isVisible={isVisible}
-      />
+      /> */}
     </NavContainer>
   );
 }

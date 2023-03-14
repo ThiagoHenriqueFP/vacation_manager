@@ -14,8 +14,8 @@ export default function Login() {
           src={qqLogo}
           alt='Logo da Lojas Quero Quero'
         />
-        <DataField placeholder='Matricula' type='number'/>
-        <DataField placeholder='Senha' type='password'/>
+        <DataField placeholder='Matricula' type='number'name='registration'/>
+        <DataField placeholder='Senha' type='password' name='password'/>
         <Button>Entrar</Button>
         <Recovery>Esqueci minha senha</Recovery>
       </LoginContainer>

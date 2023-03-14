@@ -18,4 +18,9 @@ export const DefaultButton= styled.button<any>`
   :focus{
     outline: none;
   }
+
+  > a {
+    text-decoration: none;
+    color: inherit;
+  }
 `;
