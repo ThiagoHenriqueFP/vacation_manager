@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import qqLogo from '../../assets/logo.png';
 
@@ -16,8 +17,8 @@ export default function Login() {
         />
         <DataField placeholder='Matricula' type='number'name='registration'/>
         <DataField placeholder='Senha' type='password' name='password'/>
-        <Button>Entrar</Button>
-        <Recovery>Esqueci minha senha</Recovery>
+        <Link to='manager'><Button>Entrar</Button></Link>
+        <Link to='recovery'><Recovery>Esqueci minha senha</Recovery></Link>
       </LoginContainer>
     </BackgroundLogin>
   );

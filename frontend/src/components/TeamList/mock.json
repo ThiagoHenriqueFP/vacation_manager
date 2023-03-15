@@ -1,0 +1,39 @@
+{
+  "details": [
+    {
+      "id": 1,
+      "name": "Allan Crasso",
+      "type": 0,
+      "role": "backend",
+      "status": 1
+    },
+    {
+      "id": 2,
+      "name": "Beto Rodrigues",
+      "type": 0,
+      "role": "frontend",
+      "status": 1
+    },
+    {
+      "id": 3,
+      "name": "Carlos Alves",
+      "type": 1,
+      "role": "devops",
+      "status": 0
+    },
+    {
+      "id": 4,
+      "name": "Diego Jr",
+      "type": 0,
+      "role": "backend",
+      "status": 1
+    },
+    {
+      "id": 5,
+      "name": "Estevam Ferreira",
+      "type": 1,
+      "role": "frontend",
+      "status": 0
+    }
+  ]
+}

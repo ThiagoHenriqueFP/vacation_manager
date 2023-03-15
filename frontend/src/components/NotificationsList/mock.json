@@ -1,0 +1,23 @@
+{
+  "notifications": [{
+    "id": 1,
+    "name": "Allan Crasso",
+    "registration": 980176,
+    "days_out": 20,
+    "start": "02/17/2023"
+  },
+  {
+    "id": 2,
+    "name": "Allan Crasso",
+    "registration": 980176,
+    "days_out": 20,
+    "start": "11/02/2023"
+  },
+  {
+    "id": 3,
+    "name": "Estevam Ferreira",
+    "registration": 980174,
+    "days_out": 15,
+    "start": "11/17/2023"
+  }]
+}
