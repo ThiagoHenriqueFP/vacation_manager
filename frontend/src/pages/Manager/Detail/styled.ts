@@ -23,6 +23,9 @@ export const DetailSection = styled(Container)`
   flex-direction: column;
   gap: 8px;
 
+  max-height: 70%;
+  overflow-y: scroll;
+
   margin: auto;
 `;
 

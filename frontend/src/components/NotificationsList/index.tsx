@@ -1,5 +1,8 @@
 import React from 'react';
-import {notifications} from './mock.json';
+import { notifications } from './mock.json';
+import { ButtonContainer } from './styled';
+import { ImCancelCircle, ImCalendar } from 'react-icons/im';
+import { DefaultButton } from '../DefaultButton/styled';
 
 interface INotification {
   id: number,
@@ -28,6 +31,26 @@ export default function NotificationList() {
         <span>Dias de folga: {el.days_out} dias</span>
         <br />
         <span>Inicio: {start.toLocaleDateString()} Fim: {end.toLocaleDateString()}</span>
+        <br />
+        <ButtonContainer>
+          <DefaultButton
+            className='accept'
+            onClick={() => console.log(`aceitando o pedido de ${el.id}`)}
+            icon={<ImCalendar />}
+            color='#000'
+          >
+            <ImCalendar/>
+          </DefaultButton>
+
+          <DefaultButton
+            className='reject'
+            onClick={() => console.log(`rejeitando o pedido de ${el.id}`)}
+            icon={<ImCancelCircle />}
+            color='#000'
+          >
+            <ImCancelCircle />
+          </DefaultButton>
+        </ButtonContainer>
       </li>
     );
   });
