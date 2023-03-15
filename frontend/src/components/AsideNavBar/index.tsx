@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { BsPersonFillGear} from 'react-icons/bs';
+
 import Button from '../DefaultButton';
 import { Avatar, Info, NavContainer, Separator } from './styled';
 
@@ -30,22 +33,7 @@ export default function AssideNavBar({
         <Info>Equipe: <Info className='strong'>{team} {subTeam}</Info> </Info>
       </Separator>
 
-      <Link to='details'><Button>Gerenciar Colaboradores</ Button></Link>
-
-      {/* Button to ModalEmployeeRegister
-      <Button
-        cover={false}
-        onClick={()=> {
-          setIsVisible(true);
-        }}
-      >
-        Cadastrar Colaborador
-      </Button>
-
-      <ModalRegisterEmployee
-        onClose={() => setIsVisible(false)}
-        isVisible={isVisible}
-      /> */}
+      <Link to='details'><Button icon={<BsPersonFillGear size={16}/>}>Gerenciar Colaboradores</ Button></Link>
     </NavContainer>
   );
 }

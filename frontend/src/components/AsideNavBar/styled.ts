@@ -12,7 +12,8 @@ export const NavContainer = styled.aside`
   left: 0;
   top: 0;
 
-  max-width: 300px;
+  max-width: 280px;
+  min-width: 280px;
   padding: 1.5rem;
 
   color: #fff;
