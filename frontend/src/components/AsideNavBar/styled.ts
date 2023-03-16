@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const NavContainer = styled.aside`
+export const NavContainer = styled.nav`
   background: linear-gradient(180deg, rgba(55,146,55,1) 0%, rgba(27,105,41,1) 100%);
 
   display: flex;
@@ -28,7 +28,7 @@ export const Avatar = styled.img`
 export const Info = styled.span<any>`
   text-align: start;
   font-weight: 500;
-  font-size: ${props => props.small ? '0.8rem' : '.9rem'};
+  font-size: ${props => props.small ? '0.8rem' : '0.9rem'};
   margin-bottom: 8px;
   text-overflow: clip;
 `;
@@ -40,4 +40,17 @@ export const Separator = styled.div`
   margin: 32px;
 
   text-align: start;
+
+  a {
+    color: inherit;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 16px;
+      width: 32px;
+      height: 32px;
+    }
+  }
 `;

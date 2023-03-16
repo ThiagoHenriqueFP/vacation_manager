@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { BsPersonFillGear} from 'react-icons/bs';
-
-import Button from '../DefaultButton';
+import { FaHome, FaUsersCog} from 'react-icons/fa';
 import { Avatar, Info, NavContainer, Separator } from './styled';
+import { AiFillPieChart } from 'react-icons/ai';
 
 interface IAsideNavBar {
   // 1 -> manager | 0 -> employee
@@ -32,8 +31,11 @@ export default function AssideNavBar({
         <Info>{name}</Info>
         <Info>Equipe: <Info className='strong'>{team} {subTeam}</Info> </Info>
       </Separator>
-
-      <Link to='details'><Button icon={<BsPersonFillGear size={16}/>}>Gerenciar Colaboradores</ Button></Link>
+      <Separator>
+        <Link to=''><FaHome />Página inicial</Link>
+        <Link to='details'><FaUsersCog />Gerenciar equipe</Link>
+        <Link to='dashboard'><AiFillPieChart />Dashboards</Link>
+      </Separator>
     </NavContainer>
   );
 }
