@@ -1,5 +1,6 @@
 import React from 'react';
-import { useRouteError } from 'react-router-dom';
+import { Link, useRouteError } from 'react-router-dom';
+import './style.css';
 
 export default function ErrorPage() {
   const error = useRouteError();
@@ -12,6 +13,8 @@ export default function ErrorPage() {
       <p>
         <i>{error.statusText || error.message}</i>
       </p>
+      <br />
+      <Link to='/'>Return to ligth side!</Link>
     </div>
   );
 }
