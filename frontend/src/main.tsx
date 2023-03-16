@@ -8,6 +8,7 @@ import './index.css';
 import ErrorPage from './pages/ErrorPage';
 import Detail from './pages/Manager/Detail';
 import Home from './pages/Manager/Home';
+import DashboardsPage from './pages/Manager/Dashboards';
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,10 @@ const router = createBrowserRouter([
         path: 'details',
         element: <Detail />
       },
-
+      {
+        path: 'dashboard',
+        element: <DashboardsPage />
+      },
     ],
   }
 ]);
