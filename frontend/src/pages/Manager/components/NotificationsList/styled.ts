@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { primaryColor } from '../../config/styles';
+import { primaryColor } from '../../../../config/styles';
 
 export const ButtonContainer = styled.div`
   display: flex;

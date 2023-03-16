@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import Calendar from './components/Calendar';
+import Calendar from './pages/Manager/components/Calendar';
 
 import './index.css';
 import ErrorPage from './pages/ErrorPage';

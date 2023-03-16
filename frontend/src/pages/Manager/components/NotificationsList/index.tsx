@@ -2,7 +2,7 @@ import React from 'react';
 import { notifications } from './mock.json';
 import { ButtonContainer } from './styled';
 import { ImCancelCircle, ImCalendar } from 'react-icons/im';
-import { DefaultButton } from '../DefaultButton/styled';
+import { DefaultButton } from '../../../../components/DefaultButton/styled';
 
 interface INotification {
   id: number,

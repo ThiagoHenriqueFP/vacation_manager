@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { boxShadow, containerColor } from '../../config/styles';
+import { boxShadow, containerColor } from '../../../../config/styles';
 
 export const SchedulerContainer = styled.div`
   background: ${containerColor};
