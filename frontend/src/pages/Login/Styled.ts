@@ -21,6 +21,7 @@ export const Recovery = styled.span`
   font-size: .8rem;
   font-weight: 300;
   text-decoration-line: underline;
+  color: #A8A8A8;
 `;
 
 export const Logo = styled.img`
