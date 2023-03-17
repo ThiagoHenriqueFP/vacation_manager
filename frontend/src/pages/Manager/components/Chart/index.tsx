@@ -1,10 +1,11 @@
 import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartData } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Doughnut } from 'react-chartjs-2';
 
 
 export default function ChartPie (){
-  ChartJS.register(ArcElement, Tooltip, Legend);
+  ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
   const data = {
     labels: [
@@ -12,7 +13,7 @@ export default function ChartPie (){
       'Funcionários de férias'
     ],
     datasets: [{
-      label: 'Relação funcionários ativos/de ferias',
+      label: 'Funcionarios',
       data: [4, 2],
       backgroundColor: [
         '#379237',
@@ -23,6 +24,8 @@ export default function ChartPie (){
   };
 
   return (
-    <Doughnut data={data}/>
+    <Doughnut
+      data={data}
+    />
   );
 }
