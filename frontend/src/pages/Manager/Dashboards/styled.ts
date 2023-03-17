@@ -94,6 +94,17 @@ export const ReportContainer = styled(Container)`
 
   display: flex;
   flex-direction: column;
+
+  button {
+    max-width: fit-content;
+    margin: auto;
+    color: #fff;
+
+    svg{
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+  }
 `;
 
 export const ReturnContainer = styled(Container)`
@@ -104,4 +115,19 @@ export const ReturnContainer = styled(Container)`
 export const ToOutContainer = styled(Container)`
   grid-column-start: 2;
   grid-row-start: 3;
+`;
+
+export const Separator = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  .label {
+    margin: 8px;
+    font-size: 0.8em;
+    font-weight: 300;
+  }
+
+  input {
+      border: none;
+    }
 `;

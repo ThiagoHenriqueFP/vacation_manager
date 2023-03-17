@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdNotificationImportant } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { HiDocumentReport } from 'react-icons/hi';
 
 import {
   ChartContainer,
@@ -8,6 +9,7 @@ import {
   DashHeader,
   ReportContainer,
   ReturnContainer,
+  Separator,
   ToOutContainer
 } from './styled';
 import ChartPie from '../components/Chart';
@@ -35,7 +37,7 @@ export default function DashboardsPage() {
     <DashContainer>
       <DashHeader>
         <h3>{current}</h3>
-        <Link to='notifications'><MdNotificationImportant /></Link>
+        <Link to='/notifications'><MdNotificationImportant /></Link>
       </DashHeader>
 
       <ChartContainer>
@@ -44,9 +46,13 @@ export default function DashboardsPage() {
 
       <ReportContainer>
         <span>Relatórios</span>
-        {/* <DataField name='start' placeholder='Data de inicio' type='date' label='Inicio'/>
-        <DataField name='end' placeholder='Data de final' type='date' label='Fim'/> */}
-        <Button cover={false}>Gerar Relatório</Button>
+        <Separator>
+          <p className="label">Período: início</p>
+          <input type="date" name="start" id="" />
+          <p className="label">Período: fim</p>
+          <input type="date" name="end" id="" />
+        </Separator>
+        <Button>Gerar Relatório {<HiDocumentReport />}</Button>
       </ReportContainer>
 
       <ReturnContainer>
