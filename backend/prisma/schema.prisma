@@ -10,15 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Manager {
-  id           Int    @id @default(autoincrement())
-  name         String
-  email        String @unique
-  password     String
-  registration String @unique
-  team         Team[]
-}
-
 model Employee {
   id            Int             @id @default(autoincrement())
   name          String
@@ -26,6 +17,10 @@ model Employee {
   registration  String          @unique
   password      String
   date_started  DateTime
+  isManager     Boolean         @default(false)
+  manager_id    Int?
+  Manager       Employee?       @relation("ManangerEmployee", fields: [manager_id], references: [id])
+  Employee      Employee[]      @relation("ManangerEmployee")
   team          Team?
   vacation      Vacation[]
   team_employee Team_employee[]
@@ -34,10 +29,8 @@ model Employee {
 
 model Team {
   id            Int             @id @default(autoincrement())
-  manager       Manager         @relation(fields: [manager_id], references: [id])
+  manager       Employee        @relation(fields: [manager_id], references: [id])
   manager_id    Int             @unique
-  employee      Employee        @relation(fields: [employee_id], references: [id])
-  employee_id   Int             @unique
   name          String
   sub_team      String?
   vacation      Vacation[]
