@@ -8,6 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { Employee } from '@prisma/client';
+import { hashPasswd } from 'src/services/bcryptService';
 import { IEmployee } from 'src/types/IEmployee';
 import { EmployeeService } from './employee.service';
 
@@ -21,20 +22,32 @@ export class EmployeeController {
   }
 
   @Get(':id')
-  async getByIdEmployee(id: number): Promise<Employee> | null {
-    return await this.employeeService.getByIdEmployee(id);
+  async getByIdEmployee(@Param('id') id: string): Promise<Employee> | null {
+    return await this.employeeService.getByIdEmployee(parseInt(id));
   }
 
   @Post()
   async createEmployee(
-    @Body() { date_started, name, password, registration, type }: IEmployee,
-  ): Promise<Employee> {
-    return await this.employeeService.createEmployee({
-      date_started,
+    @Body() { date_started,
       name,
       password,
       registration,
       type,
+      isManager,
+      manager_id
+    }: IEmployee,
+  ): Promise<Employee> {
+    const parsedStart = new Date(date_started);
+    const newPasswd = await hashPasswd(password);
+
+    return await this.employeeService.createEmployee({
+      date_started: parsedStart,
+      name,
+      password: newPasswd,
+      registration,
+      type,
+      isManager,
+      manager_id,
     });
   }
 
@@ -52,8 +65,8 @@ export class EmployeeController {
     });
   }
 
-  @Delete()
-  async deleteEmployee(@Param() id: number) {
-    return await this.employeeService.deleteEmployee(id);
+  @Delete(':id')
+  async deleteEmployee(@Param('id') id: string) {
+    return await this.employeeService.deleteEmployee(parseInt(id));
   }
 }

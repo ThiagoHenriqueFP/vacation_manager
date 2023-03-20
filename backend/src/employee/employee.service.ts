@@ -7,8 +7,21 @@ import { IEmployee } from 'src/types/IEmployee';
 export class EmployeeService {
   constructor(private prisma: PrismaService) { }
 
-  async createEmployee(data: IEmployee): Promise<Employee> {
-    return await this.prisma.employee.create({ data });
+  async createEmployee(employeeData: IEmployee): Promise<Employee> {
+    // create dto's
+    const data = {
+      ...employeeData,
+      vacation_data: {
+        create: {
+          days_remaining: 30,
+          date_last_vacation: null,
+          fortnigth: false
+        }
+      }
+    }
+
+    const employee = await this.prisma.employee.create({ data });
+    return employee;
   }
 
   async updateEmployee(id: number, data: IEmployee): Promise<Employee> {

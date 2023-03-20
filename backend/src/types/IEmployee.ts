@@ -4,4 +4,6 @@ export interface IEmployee {
   registration: string;
   password: string;
   date_started: Date;
+  isManager?: boolean;
+  manager_id?: number;
 }
