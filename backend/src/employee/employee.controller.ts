@@ -54,9 +54,9 @@ export class EmployeeController {
   @Patch(':id')
   async updateEmployee(
     @Body() { date_started, name, password, registration, type }: IEmployee,
-    @Param() id: number,
+    @Param('id') id: string,
   ) {
-    return await this.employeeService.updateEmployee(id, {
+    return await this.employeeService.updateEmployee(parseInt(id), {
       date_started,
       name,
       password,
