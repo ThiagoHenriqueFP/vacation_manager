@@ -15,14 +15,21 @@ export class AuthService {
     const employee = await this.employeeService.getByRegistration(registration);
 
     if (employee && comparePasswd(password, employee.password)) {
-      // const { password, ...result } = employee;
-      return await this.genToken(employee);
+      const { access_token } = await this.genToken(employee);
+      const { password, ...rest } = employee;
+
+      const response = {
+        access_token,
+        employee: rest,
+      }
+
+      return response;
     }
 
     throw new UnauthorizedException('Matricula ou senha inválida');
   }
 
-  async genToken(payload: Employee): Promise<any> {
+  async genToken(payload: Employee) {
     return {
       access_token: this.jwtService.sign(payload)
     }
