@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import Background from '../../assets/backgroundLogin.svg';
+import { DefaultButton } from '../../components/DefaultButton/styled';
 
 import { boxShadow, containerColor } from '../../config/styles';
 
@@ -14,6 +15,11 @@ export const LoginContainer = styled.div`
   padding: 50px;
   max-width: 400px;
   margin: auto;
+
+  .form-login {
+    display: flex;
+    flex-direction:column;
+  }
 `;
 
 export const Recovery = styled.span`
@@ -37,4 +43,9 @@ export const BackgroundLogin = styled.div`
   margin: 0;
   background-image: url(${Background});
   background-size: cover;
+`;
+
+export const ButtonLogin = styled(DefaultButton)`
+  max-width: 50%;
+  margin: 0 auto 12px;
 `;
