@@ -3,14 +3,7 @@ import { notifications } from './mock.json';
 import { ButtonContainer } from './styled';
 import { ImCancelCircle, ImCalendar } from 'react-icons/im';
 import { DefaultButton } from '../../../../components/DefaultButton/styled';
-
-interface INotification {
-  id: number,
-  name: string,
-  days_out: number,
-  start: string,
-  registration: number,
-}
+import { INotification } from '../../../../types/INotifications';
 
 export default function NotificationList() {
 
