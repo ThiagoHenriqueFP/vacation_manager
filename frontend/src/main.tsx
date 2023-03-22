@@ -9,6 +9,7 @@ import ErrorPage from './pages/ErrorPage';
 import Detail from './pages/Manager/Detail';
 import Home from './pages/Manager/Home';
 import DashboardsPage from './pages/Manager/Dashboards';
+import NotificationPage from './pages/Manager/Notification';
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
     element: <Home />,
     children: [
       {
-        path: '',
+        index: true,
         element: <Calendar />
       },
       {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         path: 'dashboard',
         element: <DashboardsPage />
       },
+      {
+        path: 'notifications',
+        element: <NotificationPage />
+      }
     ],
   }
 ]);

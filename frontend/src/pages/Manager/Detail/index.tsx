@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from '../../../components/DefaultButton';
 
 import NotificationList from '../components/NotificationsList';
@@ -20,7 +21,7 @@ export default function Detail() {
         <DetailList>
           <NotificationList />
         </DetailList>
-        <Button>Histórico de solicitações</Button>
+        <Link to='/manager/notifications'><Button>Histórico de solicitações</Button></Link>
       </DetailSection>
     </DetailContainer>
   );

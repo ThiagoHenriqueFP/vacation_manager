@@ -1,6 +1,5 @@
 import React from 'react';
-import { MdNotificationImportant } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+
 import { HiDocumentReport } from 'react-icons/hi';
 
 import {
@@ -37,7 +36,6 @@ export default function DashboardsPage() {
     <DashContainer>
       <DashHeader>
         <h3>{current}</h3>
-        <Link to='/notifications'><MdNotificationImportant /></Link>
       </DashHeader>
 
       <ChartContainer>

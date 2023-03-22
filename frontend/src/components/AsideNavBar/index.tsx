@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FaHome, FaUsersCog} from 'react-icons/fa';
-import { Avatar, Info, NavContainer, Separator } from './styled';
 import { AiFillPieChart } from 'react-icons/ai';
+import { MdNotificationImportant } from 'react-icons/md';
+
+import { Avatar, Info, NavContainer, Separator } from './styled';
 
 interface IAsideNavBar {
   // 1 -> manager | 0 -> employee
@@ -35,6 +37,7 @@ export default function AssideNavBar({
         <Link to=''><FaHome />Página inicial</Link>
         <Link to='details'><FaUsersCog />Gerenciar equipe</Link>
         <Link to='dashboard'><AiFillPieChart />Dashboards</Link>
+        <Link to='notifications'><MdNotificationImportant />Notificações</Link>
       </Separator>
     </NavContainer>
   );
