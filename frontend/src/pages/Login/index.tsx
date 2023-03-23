@@ -12,16 +12,32 @@ import {
   Logo,
   Recovery
 } from './Styled';
+import { login } from '../../store/login.slice';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
   const [registration, setRegistration] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function handleSubmit(e: SyntheticEvent) {
-    interface IReponse {
+    interface IResponse {
       access_token: string,
-      employee: IEmployee,
+      employee: {
+        id: number;
+        name: string;
+        type: number;
+        registration: string;
+        date_started: Date;
+        isManager: boolean;
+        manager_id: number;
+      };
+      team?: {
+        id: number,
+        name: string,
+        sub_team?: string,
+      }
     }
 
     e.preventDefault();
@@ -42,21 +58,33 @@ export default function Login() {
     try {
       const response = await axios.post('/auth', body);
 
-      const data: IReponse = response.data;
+      const data: IResponse = response.data;
 
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('employee_name', data.employee.name);
       localStorage.setItem('employee_registration', data.employee.registration);
       localStorage.setItem('employee_type', data.employee.type.toString());
       localStorage.setItem('employee_type', data.employee.date_started.toString());
+      localStorage.setItem('employee_id', data.employee.id.toString());
 
+      const dispatchData = {
+        ...data,
+        isLogged: true,
+      }
 
+      dispatch(login(dispatchData));
 
-      if (data.employee.type === 0)
+      if (data.employee.type === 0){
+        // if(!data.team){
+        //   return navigate('/manager/team')
+        // }
+
         return navigate('/manager');
+      }
 
       return navigate('/employee');
-    } catch (error) {
+    } catch (error: any) {
+      //toast vvvv
       console.log(error);
     }
 
@@ -70,12 +98,16 @@ export default function Login() {
           alt='Logo da Lojas Quero Quero'
         />
         <Form className='form-login' onSubmit={handleSubmit}>
-          <Field placeholder='Matricula'
+          <Field
+            value={registration}
+            placeholder='Matricula'
             type='text'
             name='registration'
             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRegistration(e.target.value)}
           />
-          <Field placeholder='Senha'
+          <Field
+            value={password}
+            placeholder='Senha'
             type='password'
             name='password'
             onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPassword(e.target.value)}

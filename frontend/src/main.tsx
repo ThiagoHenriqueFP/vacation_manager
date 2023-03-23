@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store  from './store';
 import App from './App';
-import Calendar from './pages/Manager/components/Calendar';
 
 import './index.css';
+import Calendar from './pages/Manager/components/Calendar';
 import ErrorPage from './pages/ErrorPage';
 import Detail from './pages/Manager/Detail';
 import Home from './pages/Manager/Home';
@@ -44,6 +46,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>,
 );
