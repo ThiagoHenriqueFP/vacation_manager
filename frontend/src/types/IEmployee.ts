@@ -1,8 +1,9 @@
 export interface IEmployee {
-  token: string,
   id: number,
   name: string,
-  registration: string,
   type: number,
+  role: number,
+  registration: string,
   date_started: Date,
+  status: boolean;
 }

@@ -66,6 +66,7 @@ export default function Login() {
       localStorage.setItem('employee_type', data.employee.type.toString());
       localStorage.setItem('employee_type', data.employee.date_started.toString());
       localStorage.setItem('employee_id', data.employee.id.toString());
+      localStorage.setItem('team',data?.team.id.toString());
 
       const dispatchData = {
         ...data,

@@ -1,8 +1,9 @@
 export interface INotification {
   id: number,
-  name: string,
-  days_out: number,
-  start: string,
-  registration: number,
-  open?: boolean
+  date_start: string,
+  date_end: string,
+  status?: boolean,
+  Employee: {
+    name: string,
+  }
 }
