@@ -6,4 +6,6 @@ export interface IEmployee {
   date_started: Date;
   isManager?: boolean;
   manager_id?: number;
+  role: string;
+  status?: boolean;
 }

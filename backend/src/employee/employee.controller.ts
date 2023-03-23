@@ -45,7 +45,9 @@ export class EmployeeController {
       registration,
       type,
       isManager,
-      manager_id
+      manager_id,
+      role,
+      status
     }: IEmployee,
   ): Promise<Employee> {
     const parsedStart = new Date(date_started);
@@ -59,13 +61,15 @@ export class EmployeeController {
       type,
       isManager,
       manager_id,
+      role,
+      status
     });
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async updateEmployee(
-    @Body() { date_started, name, password, registration, type, isManager, manager_id }: IEmployee,
+    @Body() { date_started, name, password, registration, type, isManager, manager_id, role, status }: IEmployee,
     @Param('id') id: string,
   ) {
     return await this.employeeService.updateEmployee(parseInt(id), {
@@ -76,6 +80,8 @@ export class EmployeeController {
       type,
       isManager,
       manager_id,
+      role,
+      status,
     });
   }
 

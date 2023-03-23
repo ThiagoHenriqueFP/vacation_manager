@@ -19,6 +19,8 @@ model Employee {
   date_started  DateTime
   isManager     Boolean         @default(false)
   manager_id    Int?
+  role          String
+  status        Boolean         @default(false)
   Manager       Employee?       @relation("ManangerEmployee", fields: [manager_id], references: [id])
   Employee      Employee[]      @relation("ManangerEmployee")
   team          Team?
@@ -45,7 +47,7 @@ model Vacation {
   employee_id Int
   date_start  DateTime
   date_end    DateTime
-  status      Int      @default(0)
+  status      Int?     @default(0)
 }
 
 model Team_employee {
