@@ -13,14 +13,15 @@ export class AuthService {
 
   async loginAuth(registration: string, password: string): Promise<any> {
     const employee = await this.employeeService.getByRegistration(registration);
-
-    if (employee && comparePasswd(password, employee.password)) {
+    const team = await this.employeeService.getTeams(employee.id);
+    if (employee && await comparePasswd(password, employee.password)) {
       const { access_token } = await this.genToken(employee);
       const { password, ...rest } = employee;
 
       const response = {
         access_token,
         employee: rest,
+        team
       }
 
       return response;

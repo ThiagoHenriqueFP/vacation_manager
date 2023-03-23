@@ -45,6 +45,14 @@ export class EmployeeService {
     return await this.prisma.employee.findUnique({ where: { registration }});
   }
 
+  async getTeams(manager_id: number): Promise<any> | null {
+    return await this.prisma.team.findUnique({
+      where: {
+        manager_id
+      }
+    });
+  }
+
   async deleteEmployee(id: number): Promise<Employee> | null {
     return await this.prisma.employee.delete({
       where: { id }
