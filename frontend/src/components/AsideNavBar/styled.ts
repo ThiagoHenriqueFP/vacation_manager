@@ -47,10 +47,16 @@ export const Separator = styled.div`
     display: flex;
     align-items: center;
 
-    svg {
-      margin-right: 16px;
-      width: 32px;
-      height: 32px;
-    }
+  }
+
+  svg {
+    margin-right: 16px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .logout {
+    display: flex;
+    cursor: pointer;
   }
 `;

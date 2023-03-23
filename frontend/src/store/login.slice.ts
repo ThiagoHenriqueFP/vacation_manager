@@ -1,23 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface ILogin {
-  access_token?: string;
-  employee?: {
-    id: number;
-    name: string;
-    type: number;
-    registration: string;
-    date_started: Date;
-    isManager: boolean;
-    manager_id: number;
-  };
-  team?: {
-    id: number,
-    name: string,
-    sub_team?: string,
-  }
-  isLogged: boolean;
-}
+import { ILogin } from '../types/ILogin';
 
 let initialState: ILogin = {isLogged: false};
 
