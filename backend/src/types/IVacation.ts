@@ -7,5 +7,7 @@ export interface IVacation {
   status?: number;
   Employee?: {
     name: string,
+    registration: string,
+    id: number;
   }
 }

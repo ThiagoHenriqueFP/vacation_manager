@@ -11,18 +11,18 @@ export default function Detail() {
     <DetailContainer>
       <DetailSection>
         <h3>Colaboradores na equipe</h3>
+        <Button>Inserir Colaborador</Button>
         <DetailList>
           <TeamList />
         </ DetailList>
-        <Button>Inserir Colaborador</Button>
       </DetailSection>
-      <DetailSection>
+      {/* <DetailSection>
         <h3>Solicitações de Férias</h3>
         <DetailList>
           <NotificationList />
         </DetailList>
         <Link to='/manager/notifications'><Button>Histórico de solicitações</Button></Link>
-      </DetailSection>
+      </DetailSection> */}
     </DetailContainer>
   );
 }

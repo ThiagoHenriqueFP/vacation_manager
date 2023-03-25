@@ -25,8 +25,8 @@ export default function ModalRegisterEmployee ({isVisible, onClose}: IModalRegis
         </div>
         <DataField placeholder='Nome' type='text' name='name'/>
         <DataField placeholder='Email' type='email' name='email'/>
+        <DataField placeholder='Gmail' type='email' name='gmail'/>
         <DataField placeholder='Data de início' type='date' name='data_start' label='Data de inicio'/>
-
         <Button cover={false}>Cadastrar</Button>
       </Register>
     </Container>

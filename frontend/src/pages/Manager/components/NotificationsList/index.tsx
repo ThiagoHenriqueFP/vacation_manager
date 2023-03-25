@@ -1,34 +1,131 @@
-import React from 'react';
-import { notifications } from './mock.json';
-import { ButtonContainer } from './styled';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+
+import axios from '../../../../services/axios';
+
 import { ImCancelCircle, ImCalendar } from 'react-icons/im';
+import { ButtonContainer, DetailList } from './styled';
 import { DefaultButton } from '../../../../components/DefaultButton/styled';
+
 import { INotification } from '../../../../types/INotifications';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+
 export default function NotificationList() {
+  const login = useSelector((state: RootState )=> state.login);
+  const [notifications, setNotifications] = useState<INotification []>();
+  const team = localStorage.getItem('team');
 
-  const notificationList: INotification[] = [];
+  useEffect(() => {
+    if(team)
+      axios.get(`/vacation/${team}/0`,
+        {
+          headers: {
+            Authorization: `Bearer ${login.access_token}`
+          }
+        }
+      )
+        .then(response => setNotifications(response.data))
+        .catch(error => console.log(error));
+  }, [notifications]);
 
-  for(const i of notifications)
-    notificationList.push(i);
+  function updateState(id: number) {
+    const target = notifications?.findIndex(obj => obj.id === id);
 
-  const list = notificationList.map((el) => {
-    const start = new Date(el.start);
-    const end = new Date(start.setDate(start.getDate() + el.days_out));
+    if (target && target > -1)
+      setNotifications(notifications?.splice(target, 1));
+  }
+
+  async function handleAccept(
+    event: SyntheticEvent,
+    id: number,
+    employee_id: number,
+    date_start: string,
+    date_end: string
+  ) {
+    event.preventDefault();
+
+    const body = {
+      status: 1,
+      employee_id,
+      date_start,
+      date_end,
+    }
+
+    await axios.patch(`/vacation/${id}`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${login.access_token}`
+        }
+      }
+    )
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+
+      updateState(id);
+  }
+
+  async function handleReject(event: SyntheticEvent, id: number)  {
+    event.preventDefault();
+
+    const body = {
+      status: -1
+    }
+
+    await axios.patch(`/vacation/${id}`,
+      body,
+      {
+        headers: {
+          Authorization: `Bearer ${login.access_token}`
+        }
+      }
+    )
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+
+      updateState(id);
+  }
+
+
+
+  if (!notifications)
+    return <span>Nenhuma notificação pendente!</span>
+
+  const list = notifications.map((e) => {
+    const start = new Date(e.date_start);
+    const end = new Date(e.date_end);
+    const daysOut = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+
     return (
-      <li key={el.id}>
-        <span>{el.name}</span>
+      <li key={e.id}>
+        <span>{e.Employee.name}</span>
         <br />
-        <span>Matricula: {el.registration}</span>
+        <span>Matricula: {e.Employee.registration}</span>
         <br />
-        <span>Dias de folga: {el.days_out} dias</span>
+        <span>Dias de folga: {daysOut} dias</span>
         <br />
-        <span>Inicio: {start.toLocaleDateString()} Fim: {end.toLocaleDateString()}</span>
+        <span>Inicio:
+          <span className='strong'>
+            {start.toLocaleDateString()}
+          </span> Fim:
+          <span className='strong'>
+            {end.toLocaleDateString()}
+          </span>
+        </span>
         <br />
         <ButtonContainer>
           <DefaultButton
             className='accept'
-            onClick={() => console.log(`aceitando o pedido de ${el.id}`)}
+            onClick={
+              (event: React.SyntheticEvent<Element, Event>) => handleAccept(
+                event,
+                e.id,
+                e.Employee.id,
+                e.date_start,
+                e.date_end
+              )
+            }
             icon={<ImCalendar />}
             color='#000'
           >
@@ -37,7 +134,7 @@ export default function NotificationList() {
 
           <DefaultButton
             className='reject'
-            onClick={() => console.log(`rejeitando o pedido de ${el.id}`)}
+            onClick={(event: React.SyntheticEvent<Element, Event>) => handleReject(event, e.id)}
             icon={<ImCancelCircle />}
             color='#000'
           >
@@ -49,8 +146,11 @@ export default function NotificationList() {
   });
 
   return (
-    <ul>
-      {list}
-    </ul>
+    <DetailList>
+      <h3>Notificações pendentes</h3>
+      <ul>
+        {list}
+      </ul>
+    </DetailList>
   );
 }

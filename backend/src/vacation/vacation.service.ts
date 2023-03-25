@@ -58,22 +58,22 @@ export class VacationService {
       fortnigth = true;
 
     const vacationData: Vacation_data = {
+      id: employeeVacationData.id,
       days_remaining: employeeVacationData.days_remaining - days,
       date_last_vacation: new Date(),
       employee_id,
-      id: employeeVacationData.id,
       fortnigth
     }
 
     const updateEmployee = await this.prismaService.vacation_data.update({
       where: {
-        id
+        id: vacationData.id,
       },
       data: vacationData
     });
 
     const vacationReturn = await this.prismaService.vacation.update({
-      where: { id},
+      where: { id },
       data: {
         status,
       }
@@ -108,11 +108,13 @@ export class VacationService {
       include: {
         Employee: {
           select: {
-            name: true
+            name: true,
+            registration: true,
+            id: true,
           }
         }
       }
-    })
+    });
   }
 
   async getSolicitationByTeamAndStatus(team_id: number, status: number, check: string): Promise<IVacation[]> {
@@ -133,13 +135,15 @@ export class VacationService {
         Employee: {
           select: {
             name: true,
+            registration: true,
+            id: true,
           }
         }
       }
     });
   }
 
-  async deleteSolicittion(id: number): Promise<Vacation> {
+  async deleteSolicitation(id: number): Promise<Vacation> {
     return await this.prismaService.vacation.delete({
       where: {
         id

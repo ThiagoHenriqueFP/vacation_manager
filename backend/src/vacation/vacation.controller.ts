@@ -45,6 +45,6 @@ export class VacationController {
 
   @Delete(':id')
   async removeSolicitation(@Param('id') id:string) {
-    return await this.vacationService.deleteSolicittion(parseInt(id));
+    return await this.vacationService.deleteSolicitation(parseInt(id));
   }
 }
