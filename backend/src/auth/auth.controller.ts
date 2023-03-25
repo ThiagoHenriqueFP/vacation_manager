@@ -11,6 +11,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post()
   async login(@Body() {registration, password}: Employee) {
-    return this.authService.loginAuth(registration, password)
+    return await this.authService.loginAuth(registration, password)
+  }
+
+  @Post('/verify')
+  async verify(@Body() body) {
+   return this.authService.verify(body.token);
   }
 }

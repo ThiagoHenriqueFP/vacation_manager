@@ -14,6 +14,7 @@ export class AuthService {
   async loginAuth(registration: string, password: string): Promise<any> {
     const employee = await this.employeeService.getByRegistration(registration);
     const team = await this.employeeService.getTeams(employee.id);
+
     if (employee && await comparePasswd(password, employee.password)) {
       const { access_token } = await this.genToken(employee);
       const { password, ...rest } = employee;
@@ -33,6 +34,15 @@ export class AuthService {
   async genToken(payload: Employee) {
     return {
       access_token: this.jwtService.sign(payload)
+    }
+  }
+
+  async verify(token: string) {
+    try {
+      await this.jwtService.verify(token);
+      return true;
+    } catch(error) {
+      return false;
     }
   }
 }

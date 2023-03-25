@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Form, Link, redirect, useNavigate } from 'react-router-dom';
 
 import qqLogo from '../../assets/logo.png';
@@ -88,7 +88,6 @@ export default function Login() {
       //toast vvvv
       console.log(error);
     }
-
   }
 
   return (
