@@ -24,7 +24,7 @@ export class VacationService {
 
   async updateSolicitation(id: number,  {date_end, date_start, employee_id, status}:IVacation): Promise<Vacation> {
     if (!status) return;
-
+    // status -1
     if (status < 0) {
       return await this.prismaService.vacation.update({
         where: {
@@ -60,7 +60,7 @@ export class VacationService {
     const vacationData: Vacation_data = {
       id: employeeVacationData.id,
       days_remaining: employeeVacationData.days_remaining - days,
-      date_last_vacation: new Date(),
+      date_last_vacation: new Date(), //data q sai de ferias
       employee_id,
       fortnigth
     }

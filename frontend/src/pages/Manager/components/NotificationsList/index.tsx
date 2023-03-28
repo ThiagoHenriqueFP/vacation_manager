@@ -11,22 +11,34 @@ import { INotification } from '../../../../types/INotifications';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 
-export default function NotificationList() {
+export default function NotificationList(props: any) {
   const login = useSelector((state: RootState )=> state.login);
   const [notifications, setNotifications] = useState<INotification []>();
   const team = localStorage.getItem('team');
 
   useEffect(() => {
     if(team)
-      axios.get(`/vacation/${team}/0`,
+      if(props.isPending) {
+        axios.get(`/vacation/${team}/0`,
         {
           headers: {
             Authorization: `Bearer ${login.access_token}`
           }
         }
-      )
+        )
         .then(response => setNotifications(response.data))
         .catch(error => console.log(error));
+      } else {
+        axios.get(`/vacation/team/${team}`,
+        {
+          headers: {
+            Authorization: `Bearer ${login.access_token}`
+          }
+        }
+        )
+        .then(response => setNotifications(response.data))
+        .catch(error => console.log(error));
+      }
   }, [notifications]);
 
   function updateState(id: number) {
@@ -87,8 +99,6 @@ export default function NotificationList() {
       updateState(id);
   }
 
-
-
   if (!notifications)
     return <span>Nenhuma notificação pendente!</span>
 
@@ -114,7 +124,8 @@ export default function NotificationList() {
           </span>
         </span>
         <br />
-        <ButtonContainer>
+        {!props.isPending && <span>{e.status > 0 ? 'Aceito' : e.status < 0 ? 'Rejeitado' : 'Pendente'}</span>}
+        {props.isPending && <ButtonContainer>
           <DefaultButton
             className='accept'
             onClick={
@@ -140,14 +151,14 @@ export default function NotificationList() {
           >
             <ImCancelCircle />
           </DefaultButton>
-        </ButtonContainer>
+        </ButtonContainer>}
       </li>
     );
   });
 
   return (
     <DetailList>
-      <h3>Notificações pendentes</h3>
+      <h3>{props.isPending ? 'Notificações pendentes' : 'Histórico de notficações'}</h3>
       <ul>
         {list}
       </ul>

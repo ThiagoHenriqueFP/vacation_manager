@@ -8,7 +8,6 @@ import NotificationList from '../components/NotificationsList';
 export default function NotificationPage() {
   const state = useSelector((state: RootState) => state.login);
   const [allNotifications, setAllNotifications] = useState<INotification[]| null>();
-  const [pendingNotifications, setPendingNotifications] = useState<INotification[] | null>();
 
   const team = localStorage.getItem('team');
 
@@ -24,19 +23,13 @@ export default function NotificationPage() {
       }
     ).then((response) => setAllNotifications(response.data))
     .catch(error => console.log(error));
-
-    axios.get(`/vacation/${parseInt(team)}/0?employees=true`,
-      {
-        headers: {
-          Authorization: `Bearer ${state.access_token}`
-        }
-      }
-    ).then((response) => setPendingNotifications(response.data))
-    .catch(error => console.log(error));
-  }, []);
+  }, [allNotifications]);
 
   return (
-    <NotificationList />
+    <>
+      <NotificationList isPending={true} />
+      <NotificationList />
+    </>
   );
 
   // return (

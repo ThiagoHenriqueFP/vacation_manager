@@ -21,6 +21,8 @@ model Employee {
   manager_id    Int?
   role          String
   status        Boolean         @default(false)
+  email         String
+  gmail         String?
   Manager       Employee?       @relation("ManangerEmployee", fields: [manager_id], references: [id])
   Employee      Employee[]      @relation("ManangerEmployee")
   team          Team?
