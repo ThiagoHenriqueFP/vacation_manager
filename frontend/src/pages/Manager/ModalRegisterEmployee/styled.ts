@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import { DefaultButton } from '../../../components/DefaultButton/styled';
 
-import { boxShadow, containerColor } from '../../../config/styles';
+
+import { boxShadow, containerColor, primaryColor } from '../../../config/styles';
 
 export const Container = styled.div`
   position: fixed;
@@ -23,10 +25,10 @@ export const Container = styled.div`
 `;
 
 export const Register = styled.form`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  /* flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 
   background: ${containerColor};
   box-shadow: ${boxShadow};
@@ -47,8 +49,89 @@ export const Register = styled.form`
   .close-icon {
     display: inline-block;
     position: relative;
-    left: 50%;
+    left: 100%;
     bottom: 30px;
     color: black;
+  }
+
+  button {
+    width: 120px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 16px;
+  }
+
+  span {
+    text-align: center;
+    color: grey;
+    margin-bottom: 16px;
+  }
+`;
+
+export const Select = styled.select`
+  padding: 12px;
+  border-radius: 20px;
+
+  border: none;
+  box-shadow: ${boxShadow};
+
+  font-size: 1rem;
+
+  option[value=""][disabled] {
+    display: none;
+  }
+
+  option {
+    color: black;
+  }
+
+  margin-bottom: 16px;
+`;
+
+export const DataField = styled.input`
+  padding: 12px;
+  border-radius: 20px;
+
+  width: 200px;
+  border: none;
+  box-shadow: ${boxShadow};
+  font-size: 1rem;
+
+  background: #efefef;
+  margin-bottom: 16px;
+
+  ::placeholder {
+    color: black;
+    padding-left: 5px;
+  }
+`;
+
+export const ModalButton = styled.button`
+padding: 8px 74px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  background: ${primaryColor};
+  border-radius: 20px;
+  border: none;
+  box-shadow: ${boxShadow};
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  :hover{
+    cursor: pointer;
+  }
+
+  :focus{
+    outline: none;
+  }
+
+  > a {
+    text-decoration: none;
+    color: inherit;
   }
 `;

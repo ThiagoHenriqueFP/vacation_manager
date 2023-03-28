@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Employee } from '@prisma/client';
@@ -20,8 +21,8 @@ export class EmployeeController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAllEmployee(): Promise<Employee[]> {
-    return await this.employeeService.getAllEmployees();
+  async getAllEmployee(@Query('search') search): Promise<Employee[]> {
+    return await this.employeeService.getAllEmployees(search);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -51,7 +52,12 @@ export class EmployeeController {
     }: IEmployee,
   ): Promise<Employee> {
     const parsedStart = new Date(date_started);
-    const newPasswd = await hashPasswd(password);
+    let newPasswd: string;
+    if(password){
+      newPasswd = await hashPasswd(password);
+    } else {
+      newPasswd = await hashPasswd(registration);
+    }
 
     return await this.employeeService.createEmployee({
       date_started: parsedStart,

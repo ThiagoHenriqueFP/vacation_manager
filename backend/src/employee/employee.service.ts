@@ -20,8 +20,31 @@ export class EmployeeService {
       }
     }
 
-    const employee = await this.prisma.employee.create({ data });
-    return employee;
+    if(employeeData.manager_id){
+
+      const team = await this.prisma.team.findUnique({
+        where: {
+          manager_id: employeeData.manager_id
+        }
+      });
+
+      const employee = await this.prisma.employee.create({
+        data: {
+          ...data,
+          team_employee: {
+            create: {
+              team_id: team.id
+            }
+          }
+        }
+       });
+      return employee;
+    }
+
+    return await this.prisma.employee.create({
+      data
+    });
+
   }
 
   async updateEmployee(id: number, data: IEmployee): Promise<Employee> {
@@ -33,8 +56,17 @@ export class EmployeeService {
     });
   }
 
-  async getAllEmployees(): Promise<Employee[]> {
-    return await this.prisma.employee.findMany();
+  async getAllEmployees(query?: string): Promise<Employee[]> {
+    if (!query)
+      return await this.prisma.employee.findMany();
+
+      return await this.prisma.employee.findMany({
+        where: {
+          registration: {
+            contains: query
+          }
+        }
+      });
   }
 
   async getByIdEmployee(id: number): Promise<Employee> | null {

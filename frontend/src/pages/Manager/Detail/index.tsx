@@ -1,20 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../../../components/DefaultButton';
+import React, { SyntheticEvent, useState } from 'react';
 
-import NotificationList from '../components/NotificationsList';
-import TeamList from '../components/TeamList';
 import { DetailSection,DetailContainer, DetailList } from './styled';
+import Button from '../../../components/DefaultButton';
+import TeamList from '../components/TeamList';
+import ModalRegisterEmployee from '../ModalRegisterEmployee';
 
 export default function Detail() {
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <DetailContainer>
       <DetailSection>
         <h3>Colaboradores na equipe</h3>
-        <Button>Inserir Colaborador</Button>
         <DetailList>
           <TeamList />
         </ DetailList>
+        <Button onClick={() => setIsVisible(!isVisible)}>Inserir Colaborador</Button>
+        {isVisible && <ModalRegisterEmployee isVisible={isVisible} onClose={setIsVisible}/> }
       </DetailSection>
       {/* <DetailSection>
         <h3>Solicitações de Férias</h3>
