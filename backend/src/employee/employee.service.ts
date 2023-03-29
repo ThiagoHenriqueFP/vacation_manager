@@ -48,11 +48,15 @@ export class EmployeeService {
   }
 
   async updateEmployee(id: number, data: IEmployee): Promise<Employee> {
+    const {date_started, ...rest} = data;
     return await this.prisma.employee.update({
       where: {
         id,
       },
-      data,
+      data: {
+        ...rest,
+        date_started: new Date(date_started)
+      }
     });
   }
 
@@ -88,6 +92,18 @@ export class EmployeeService {
   async deleteEmployee(id: number): Promise<Employee> | null {
     return await this.prisma.employee.delete({
       where: { id }
+    });
+  }
+
+  async updateStatus(id: number, data) {
+    const { status } = data
+    return this.prisma.employee.update({
+      where: {
+        id
+      },
+      data:{
+        status
+      }
     });
   }
 }

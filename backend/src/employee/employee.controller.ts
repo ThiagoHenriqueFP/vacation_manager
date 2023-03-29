@@ -91,6 +91,12 @@ export class EmployeeController {
     });
   }
 
+
+  @Patch('/status/:id')
+  async patchTest(@Param('id') id: string, @Body() status: boolean) {
+    return await this.employeeService.updateStatus(parseInt(id), status);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteEmployee(@Param('id') id: string) {

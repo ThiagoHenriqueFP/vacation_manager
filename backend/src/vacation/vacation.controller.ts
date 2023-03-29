@@ -26,7 +26,9 @@ export class VacationController {
 
   @Get(':team_id/:status')
   async getSolicitationByStatus(
-    @Param('team_id') team_id: string,@Param('status') status: string, @Query('employees') check: string
+    @Param('team_id') team_id: string,
+    @Param('status') status: string,
+    @Query('employees') check: string
     ) {
     return await this.vacationService.getSolicitationByTeamAndStatus(
       parseInt(team_id),
