@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ILogin } from '../types/ILogin';
+import { ITeam } from '../types/ITeam';
 
 let initialState: ILogin = {isLogged: false};
 
@@ -17,11 +18,14 @@ export const LoginSlice = createSlice({
     },
     logout: (state, action) => {
       state = {isLogged: false}
+    },
+    insertTeam: (state, action: PayloadAction<ITeam>) => {
+      state.team = action.payload;
     }
   }
 });
 
-export const { login, logout } = LoginSlice.actions;
+export const { login, logout, insertTeam } = LoginSlice.actions;
 
 export const selectLogin = (state: { login: any; }) => state.login;
 

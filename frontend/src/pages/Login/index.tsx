@@ -60,13 +60,14 @@ export default function Login() {
 
       const data: IResponse = response.data;
 
+      console.log(data);
+
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('employee_name', data.employee.name);
       localStorage.setItem('employee_registration', data.employee.registration);
       localStorage.setItem('employee_type', data.employee.type.toString());
       localStorage.setItem('employee_type', data.employee.date_started.toString());
       localStorage.setItem('employee_id', data.employee.id.toString());
-      localStorage.setItem('team',data?.team.id.toString());
 
       const dispatchData = {
         ...data,
@@ -76,9 +77,11 @@ export default function Login() {
       dispatch(login(dispatchData));
 
       if (data.employee.type === 0){
-        // if(!data.team){
-        //   return navigate('/manager/team')
-        // }
+        if(!data.team){
+          return navigate('/manager/team');
+        }
+
+        localStorage.setItem('team',data?.team.id.toString());
 
         return navigate('/manager');
       }
