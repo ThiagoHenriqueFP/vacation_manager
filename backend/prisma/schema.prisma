@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -69,11 +69,6 @@ model Vacation_data {
   date_last_vacation DateTime?
   fortnigth          Boolean?
 }
-
-// enum Role {
-//   MANAGER
-//   EMPLOYEE
-// }
 
 // enum Type {
 //   CLT
