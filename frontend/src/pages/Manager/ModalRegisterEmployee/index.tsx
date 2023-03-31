@@ -28,22 +28,22 @@ export default function ModalRegisterEmployee ({isVisible, onClose}: IModalRegis
 
   const state = useSelector((state: RootState) => state.login);
 
-  async function handleSubmit(e: SyntheticEvent) {
+  async function handleSubmit(e: SyntheticEvent, ) {
     e.preventDefault();
 
     if(isRegister){
-      const body = {
-        registration,
-        name,
-        type: parseInt(type),
-        role,
-        email,
-        gmail,
-        date_started: date,
-        manager_id: state.employee?.id,
-      }
-
       try {
+        const body = {
+          registration,
+          name,
+          type: parseInt(type),
+          role,
+          email,
+          gmail,
+          date_started: date,
+          manager_id: state.employee?.id,
+        }
+
         return await axios.post('/employee',
           body,
           {
@@ -55,9 +55,11 @@ export default function ModalRegisterEmployee ({isVisible, onClose}: IModalRegis
       } catch (error) {
         console.log(error);
       }
+      return onClose(false);
     }
 
     try {
+      console.log("entrou no segundo")
       await axios.post(`/team/insert`, {
         employee_id: id,
         team_id: state.team?.id
@@ -74,7 +76,7 @@ export default function ModalRegisterEmployee ({isVisible, onClose}: IModalRegis
           Authorization: `Bearer ${state.access_token}`
         }
       });
-      return;
+      return onClose(false);
     } catch (error){
       console.log(error);
     }
