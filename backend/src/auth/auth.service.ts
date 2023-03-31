@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Employee } from '@prisma/client';
 import { EmployeeService } from 'src/employee/employee.service';
 import { comparePasswd } from 'src/services/bcryptService';
@@ -13,6 +13,8 @@ export class AuthService {
 
   async loginAuth(registration: string, password: string): Promise<any> {
     const employee = await this.employeeService.getByRegistration(registration);
+    if(!employee) throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
+
     const team = await this.employeeService.getTeams(employee.id);
 
     if (employee && await comparePasswd(password, employee.password)) {

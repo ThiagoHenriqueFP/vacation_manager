@@ -32,62 +32,50 @@ export class EmployeeController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':registration')
+  @Get('/registration/:registration')
   async getByRegistrationEmployee(@Param('registration') registration: string): Promise<Employee> | null {
     return await this.employeeService.getByRegistration(registration);
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/status/:status/:manager_id')
+  async getByStatus(
+    @Param('status') status,
+    @Param('manager_id') manager_id,
+    @Query('count') count
+  ) {
+    return await this.employeeService.getByStatusAndTeam(status, parseInt(manager_id), count);
+  }
+
   @Post()
   async createEmployee(
-    @Body() { date_started,
-      name,
-      password,
-      registration,
-      type,
-      isManager,
-      manager_id,
-      role,
-      status
-    }: IEmployee,
+    @Body() employeeData: IEmployee,
   ): Promise<Employee> {
-    const parsedStart = new Date(date_started);
+    const parsedStart = new Date(employeeData.date_started);
     let newPasswd: string;
-    if(password){
-      newPasswd = await hashPasswd(password);
+    if(employeeData.password){
+      newPasswd = await hashPasswd(employeeData.password);
     } else {
-      newPasswd = await hashPasswd(registration);
+      newPasswd = await hashPasswd(employeeData.registration);
     }
 
+    const {date_started, password, ...rest} = employeeData;
     return await this.employeeService.createEmployee({
       date_started: parsedStart,
-      name,
       password: newPasswd,
-      registration,
-      type,
-      isManager,
-      manager_id,
-      role,
-      status
+      ...rest,
     });
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async updateEmployee(
-    @Body() { date_started, name, password, registration, type, isManager, manager_id, role, status }: IEmployee,
+    @Body() employeeData: IEmployee,
     @Param('id') id: string,
   ) {
+    const {password, ...rest} = employeeData;
     return await this.employeeService.updateEmployee(parseInt(id), {
-      date_started,
-      name,
-      password,
-      registration,
-      type,
-      isManager,
-      manager_id,
-      role,
-      status,
+      ...rest
     });
   }
 

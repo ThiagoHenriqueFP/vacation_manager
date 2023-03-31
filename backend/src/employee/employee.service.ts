@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Employee } from '@prisma/client';
+import { hashPasswd } from 'src/services/bcryptService';
 import { PrismaService } from 'src/services/prisma.services';
-import { IEmployee } from 'src/types/IEmployee';
+import { IEmployee, IUpdateEmployee } from 'src/types/IEmployee';
 
 @Injectable()
 export class EmployeeService {
@@ -9,8 +10,9 @@ export class EmployeeService {
 
   async createEmployee(employeeData: IEmployee): Promise<Employee> {
     // create dto's
+    const {id, manager_id,...rest} = employeeData;
     const data = {
-      ...employeeData,
+      ...rest,
       vacation_data: {
         create: {
           days_remaining: 30,
@@ -20,8 +22,7 @@ export class EmployeeService {
       }
     }
 
-    if(employeeData.manager_id){
-
+    if(manager_id){
       const team = await this.prisma.team.findUnique({
         where: {
           manager_id: employeeData.manager_id
@@ -31,6 +32,7 @@ export class EmployeeService {
       const employee = await this.prisma.employee.create({
         data: {
           ...data,
+          manager_id,
           team_employee: {
             create: {
               team_id: team.id
@@ -47,7 +49,7 @@ export class EmployeeService {
 
   }
 
-  async updateEmployee(id: number, data: IEmployee): Promise<Employee> {
+  async updateEmployee(id: number, data: IUpdateEmployee): Promise<Employee> {
     const {date_started, ...rest} = data;
     return await this.prisma.employee.update({
       where: {
@@ -81,6 +83,28 @@ export class EmployeeService {
     return await this.prisma.employee.findUnique({ where: { registration }});
   }
 
+  async getByStatusAndTeam(status: string, manager_id: number, count = 'false') {
+    if(count === 'true') {
+      const data = await this.prisma.employee.groupBy({
+        by: ['status'],
+        where: {
+          manager_id,
+          status: status === 'true',
+        },
+        _count: true,
+      });
+
+      return data;
+    }
+    const statusData = status === 'true';
+    return await this.prisma.employee.findMany({
+      where: {
+        manager_id,
+        status: statusData,
+      }
+    });
+  }
+
   async getTeams(manager_id: number): Promise<any> | null {
     return await this.prisma.team.findUnique({
       where: {
@@ -90,6 +114,12 @@ export class EmployeeService {
   }
 
   async deleteEmployee(id: number): Promise<Employee> | null {
+    await this.prisma.vacation_data.delete({
+      where: {
+        employee_id: id,
+      }
+    });
+
     return await this.prisma.employee.delete({
       where: { id }
     });
