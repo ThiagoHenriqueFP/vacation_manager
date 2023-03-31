@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { Scheduler } from '@aldabil/react-scheduler';
 import mock  from './calendarMock.json';
 import { SchedulerContainer } from './styled';
+import axios from '../../../../services/axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import { checkOnVacation } from '../../../../services/updateEmployeesStatus';
+import { IDashboard } from '../../../../types/IDashboard';
 
 interface IEvents {
   event_id: number,
@@ -12,6 +17,27 @@ interface IEvents {
 }
 
 export default function CustomSchedule() {
+  const state = useSelector((state: RootState) => state.login);
+
+  const [vacations, setVacations] = useState<any>([]);
+
+  if(state.access_token && state.team)
+    checkOnVacation(state.access_token, state?.team?.id);
+
+  useMemo(() => {
+    async function getData(){
+
+      const obj = await axios.get(`/vacation/${state?.team?.id}/0?employees=true`, {
+        headers: {
+          Authorization: `Bearer ${state.access_token}`
+        }
+      });
+
+      console.log(obj);
+    }
+
+    getData();
+    }, []);
 
   const eventObject: IEvents[] = [];
 
