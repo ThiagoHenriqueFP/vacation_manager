@@ -30,7 +30,7 @@ export default function CreateTeam() {
         }
       });
 
-      localStorage.setItem('team',response.data.team.id.toString());
+      localStorage.setItem('team',response.data.team.id);
       dispatch(insertTeam(response.data))
 
       return navigate('/manager')
