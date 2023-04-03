@@ -113,6 +113,16 @@ export class EmployeeService {
     });
   }
 
+  async getVacationData(id: number) {
+    const data = await this.prisma.vacation_data.findMany({
+      where: {
+        employee_id: id,
+      }
+    });
+
+    return data[0];
+  }
+
   async deleteEmployee(id: number): Promise<Employee> | null {
     await this.prisma.vacation_data.delete({
       where: {

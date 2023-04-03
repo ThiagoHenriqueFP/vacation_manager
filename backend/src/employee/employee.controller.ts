@@ -47,6 +47,12 @@ export class EmployeeController {
     return await this.employeeService.getByStatusAndTeam(status, parseInt(manager_id), count);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('/vacation-data/:employee_id')
+  async getByEmployee (@Param('employee_id') employee_id){
+    return await this.employeeService.getVacationData(parseInt(employee_id));
+  }
+
   @Post()
   async createEmployee(
     @Body() employeeData: IEmployee,
