@@ -16,6 +16,6 @@ export class AuthController {
 
   @Post('/verify')
   async verify(@Body() body) {
-   return this.authService.verify(body.token);
+   return await this.authService.verify(body.token);
   }
 }

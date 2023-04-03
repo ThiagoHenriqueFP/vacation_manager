@@ -15,7 +15,13 @@ export class AuthService {
     const employee = await this.employeeService.getByRegistration(registration);
     if(!employee) throw new HttpException("Usuário não encontrado", HttpStatus.NOT_FOUND);
 
-    const team = await this.employeeService.getTeams(employee.id);
+    let team;
+    if(employee.isManager){
+      team = await this.employeeService.getTeams(employee.id);
+    } else {
+      team = await this.employeeService.getTeams(employee.manager_id);
+    }
+
 
     if (employee && await comparePasswd(password, employee.password)) {
       const { access_token } = await this.genToken(employee);
