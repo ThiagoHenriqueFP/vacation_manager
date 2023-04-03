@@ -17,6 +17,11 @@ export class VacationController {
     return await this.vacationService.getById(parseInt(id));
   }
 
+  @Get('/employee/:employee_id')
+  async getByEmployeeId(@Param('employee_id') employee_id) {
+    return await this.vacationService.getByEmployeeId(parseInt(employee_id));
+  }
+
   @Get('/team/:team_id')
   async getAllSolicitation(
     @Param('team_id') team_id: string, @Query('employees') check: string

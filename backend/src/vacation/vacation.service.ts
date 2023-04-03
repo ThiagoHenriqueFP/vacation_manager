@@ -93,6 +93,14 @@ export class VacationService {
     });
   }
 
+  async getByEmployeeId(id: number) {
+    return await this.prismaService.vacation.findMany({
+      where: {
+        employee_id: id,
+      }
+    });
+  }
+
   async getAllSolicitationsByTeam(team_id: number, check: string): Promise<IVacation[]> {
     if(check === 'false')
       return await this.prismaService.vacation.findMany({
