@@ -7,7 +7,7 @@ import { IVacation } from 'src/types/IVacation';
 export class VacationService {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async createVacation({team_id, date_end, date_start, employee_id }: IVacation) {
+  async createVacation({team_id, date_end, date_start, employee_id, thirteenth }: IVacation) {
     const parsedStart = new Date(date_start);
     const parsedEnd = new Date(date_end);
 
@@ -18,11 +18,12 @@ export class VacationService {
         employee_id,
         status: 0,
         team_id,
+        thirteenth,
       }
     });
   }
 
-  async updateSolicitation(id: number,  {date_end, date_start, employee_id, status}:IVacation): Promise<Vacation> {
+  async updateSolicitation(id: number,  {date_end, date_start, employee_id, status, reason}:IVacation): Promise<Vacation> {
     if (!status) return;
     // status -1
     if (status < 0) {
@@ -31,7 +32,8 @@ export class VacationService {
           id
         },
         data: {
-          status
+          status,
+          reason,
         }
       });
     }

@@ -50,6 +50,8 @@ model Vacation {
   date_start  DateTime
   date_end    DateTime
   status      Int?     @default(0)
+  thirteenth  Boolean  @default(false)
+  reason      String?
 }
 
 model Team_employee {

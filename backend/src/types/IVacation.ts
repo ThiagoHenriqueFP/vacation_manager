@@ -5,6 +5,8 @@ export interface IVacation {
   date_start: string | Date;
   date_end: string | Date;
   status?: number;
+  thirteenth?: boolean;
+  reason?: string;
   Employee?: {
     name: string,
     registration: string,

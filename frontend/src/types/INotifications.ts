@@ -3,7 +3,7 @@ export interface INotification {
   date_start: string,
   date_end: string,
   status?: number,
-  description: string,
+  reason: string,
   Employee: {
     name: string,
     registration?: string,
