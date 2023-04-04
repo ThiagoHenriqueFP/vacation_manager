@@ -1,1 +1,4 @@
-deploy.sh
+*.sh
+*.out
+/python/.env
+/python/__pycache__

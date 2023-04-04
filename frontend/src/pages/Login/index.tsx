@@ -60,8 +60,6 @@ export default function Login() {
 
       const data: IResponse = response.data;
 
-      console.log(data);
-
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('employee_name', data.employee.name);
       localStorage.setItem('employee_registration', data.employee.registration);
@@ -76,7 +74,7 @@ export default function Login() {
 
       dispatch(login(dispatchData));
 
-      if (data.employee.type === 0){
+      if (data.employee.isManager == true){
         if(!data.team){
           return navigate('/manager/team');
         }
@@ -85,7 +83,8 @@ export default function Login() {
 
         return navigate('/manager');
       }
-
+      data.team
+      localStorage.setItem('team',data?.team.id.toString());
       return navigate('/employee');
     } catch (error: any) {
       //toast vvvv
