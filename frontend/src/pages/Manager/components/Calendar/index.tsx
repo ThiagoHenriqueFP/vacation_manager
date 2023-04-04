@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
-import { Scheduler, useScheduler } from '@aldabil/react-scheduler';
-import { SchedulerContainer } from './styled';
+import { Scheduler } from '@aldabil/react-scheduler';
+import { Loading, SchedulerContainer } from './styled';
 import axios from '../../../../services/axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
@@ -19,7 +19,7 @@ interface IEvents {
 export default function CustomSchedule() {
   const state = useSelector((state: RootState) => state.login);
   const [vacations, setVacations] = useState<ProcessedEvent []>([]);
-  const scheduler = useScheduler();
+  const [isLoading, setIsLoading] = useState(true);
 
   if(state.access_token && state.team)
     checkOnVacation(state.access_token, state?.team?.id);
@@ -46,17 +46,19 @@ export default function CustomSchedule() {
         return parsed;
       });
       setVacations(obj);
-      scheduler.setEvents(vacations);
+      setIsLoading(false);
     }
     getData();
   }, []);
 
-  console.log(scheduler.events);
+  if(isLoading) {
+    return <Loading>Loading</Loading>
+  }
 
   return (
     <SchedulerContainer>
       <Scheduler
-        events={scheduler.events}
+        events={vacations}
         view='month'
         />
     </SchedulerContainer>
