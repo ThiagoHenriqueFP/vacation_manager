@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
 
-import { Scheduler } from '@aldabil/react-scheduler';
-import mock  from './calendarMock.json';
+import { Scheduler, useScheduler } from '@aldabil/react-scheduler';
 import { SchedulerContainer } from './styled';
 import axios from '../../../../services/axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../store';
 import { checkOnVacation } from '../../../../services/updateEmployeesStatus';
-import { IDashboard } from '../../../../types/IDashboard';
+import { INotification } from '../../../../types/INotifications';
+import { ProcessedEvent } from '@aldabil/react-scheduler/types';
 
 interface IEvents {
   event_id: number,
@@ -18,46 +18,47 @@ interface IEvents {
 
 export default function CustomSchedule() {
   const state = useSelector((state: RootState) => state.login);
-
-  const [vacations, setVacations] = useState<any>([]);
+  const [vacations, setVacations] = useState<ProcessedEvent []>([]);
+  const scheduler = useScheduler();
 
   if(state.access_token && state.team)
     checkOnVacation(state.access_token, state?.team?.id);
 
   useMemo(() => {
     async function getData(){
-
-      const obj = await axios.get(`/vacation/${state?.team?.id}/0?employees=true`, {
+      const {data}: {data: INotification[]} = await axios.get(`/vacation/${state?.team?.id}/1?employees=true`, {
         headers: {
           Authorization: `Bearer ${state.access_token}`
         }
       });
 
-      console.log(obj);
+      const obj: ProcessedEvent[] = data.map(e => {
+        const parsedStart = e.date_start.slice(0, 16).replace('T', ' ');
+        const parsedEnd = e.date_end.slice(0, 16).replace('T', ' ');
+
+        const parsed: ProcessedEvent = {
+          event_id: e.id,
+          title: `Ferias de ${e.Employee.name}`,
+          start: new Date(parsedStart),
+          end: new Date(parsedEnd),
+        }
+
+        return parsed;
+      });
+      setVacations(obj);
+      scheduler.setEvents(vacations);
     }
-
     getData();
-    }, []);
+  }, []);
 
-  const eventObject: IEvents[] = [];
-
-  for (const i of mock.vacations){
-    const obj=  {
-      event_id: i.event_id,
-      title: `Ferias de ${i.title}`,
-      start: new Date(i.start),
-      end: new Date(i.end),
-    };
-
-    eventObject.push(obj);
-  }
+  console.log(scheduler.events);
 
   return (
     <SchedulerContainer>
       <Scheduler
-        events={eventObject}
+        events={scheduler.events}
         view='month'
-      />
+        />
     </SchedulerContainer>
   );
 }

@@ -36,12 +36,24 @@ export default function DashboardsPage() {
         </li>
         );
       });
+
+      return data;
+    } else {
+      const data = obj.map(e => {
+        const outDate = new Date(e.date_start).toLocaleString();
+        return (
+          <li key={e?.id}>
+            <span className='medium'>{e.Employee.name}</span>
+            <span className='ligth space'>retorno: {outDate}</span>
+          </li>
+        )
+      });
       return data;
     }
   }
 
 
-  useMemo(() => {
+  useEffect(() => {
     async function checkOnVacationEmployees() {
       try {
         if (state.team) {
@@ -51,7 +63,7 @@ export default function DashboardsPage() {
             }
           });
 
-          response.data.map(async (e: IDashboard) => {
+          const obj = response.data.map(async (e: IDashboard) => {
             const parsedStart = new Date(e.date_start).getTime();
             const parsedEnd = new Date(e.date_end).getTime();
 
@@ -59,9 +71,10 @@ export default function DashboardsPage() {
               await axios.patch(`/employee/status/${e.Employee.id}`, {
                 status: true
               });
-              setOnVacation(onVacation.push(e));
             }
           });
+
+          setOnVacation(obj);
       }
       } catch (error) {
         console.log(error);
@@ -82,9 +95,12 @@ export default function DashboardsPage() {
         response.data.map((e: IDashboard) => {
           const parsedStart = new Date(e.date_start).getTime();
           if(current.getTime() <= parsedStart){
-            setToOut(toOut.push(e));
+            const obj = toOut;
+            obj.push(e);
+            setToOut(obj);
           }
         });
+        console.log(toOut);
       }
       } catch(error) {
         console.log(error);
@@ -92,7 +108,7 @@ export default function DashboardsPage() {
     }
     checkActiveEmployees();
 
-  }, []);
+  }, [onVacation, toOut]);
 
   return (
     <DashContainer>
@@ -119,7 +135,7 @@ export default function DashboardsPage() {
         <span>Colaboradores de ferias </span>
         {onVacation.length == 0
           ? <span>Nenhum Colaborador de férias</span>
-          : <ul>{renderList(onVacation, false)}</ul>
+          : <ul>{renderList(onVacation)}</ul>
         }
       </ReturnContainer>
 
@@ -127,7 +143,7 @@ export default function DashboardsPage() {
         <span>Proximos a sair de férias</span>
         {onVacation.length < 1
           ? <span>Nenhum Colaborador com férias registradas</span>
-          : <ul>{renderList(toOut)}</ul>
+          : <ul>{renderList(toOut, false)}</ul>
         }
       </ToOutContainer>
     </DashContainer>

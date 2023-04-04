@@ -18,13 +18,6 @@ export default function Detail() {
         <Button onClick={() => setIsVisible(!isVisible)}>Inserir Colaborador</Button>
         {isVisible && <ModalRegisterEmployee isVisible={isVisible} onClose={setIsVisible}/> }
       </DetailSection>
-      {/* <DetailSection>
-        <h3>Solicitações de Férias</h3>
-        <DetailList>
-          <NotificationList />
-        </DetailList>
-        <Link to='/manager/notifications'><Button>Histórico de solicitações</Button></Link>
-      </DetailSection> */}
     </DetailContainer>
   );
 }
