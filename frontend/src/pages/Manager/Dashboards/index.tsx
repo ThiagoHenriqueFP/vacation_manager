@@ -28,25 +28,29 @@ export default function DashboardsPage() {
   function renderList(obj: IDashboard[], isOut = true) {
     if (isOut) {
       const data = obj.map((e) => {
-        const returnDate = new Date(e.date_end).toLocaleDateString();
-        return (
-          <li key={e?.id}>
-          <span className='medium'>{e.Employee.name}</span>
-          <span className='ligth space'>retorno: {returnDate}</span>
-        </li>
-        );
+        if(e){
+          const returnDate = new Date(e.date_end).toLocaleDateString();
+            return (
+            <li key={e?.id}>
+              <span className='medium'>{e.Employee.name}</span>
+              <span className='ligth space'>retorno: {returnDate}</span>
+            </li>
+          );
+        }
       });
 
       return data;
     } else {
       const data = obj.map(e => {
-        const outDate = new Date(e.date_start).toLocaleString();
-        return (
-          <li key={e?.id}>
+        if(e){
+          const outDate = new Date(e.date_start).toLocaleDateString();
+          return (
+            <li key={e?.id}>
             <span className='medium'>{e.Employee.name}</span>
             <span className='ligth space'>retorno: {outDate}</span>
           </li>
         )
+      }
       });
       return data;
     }
@@ -63,18 +67,20 @@ export default function DashboardsPage() {
             }
           });
 
-          const obj = response.data.map(async (e: IDashboard) => {
+          response.data.map((e: IDashboard) => {
             const parsedStart = new Date(e.date_start).getTime();
             const parsedEnd = new Date(e.date_end).getTime();
 
             if(current.getTime() >= parsedStart && current.getTime() <= parsedEnd){
-              await axios.patch(`/employee/status/${e.Employee.id}`, {
+              axios.patch(`/employee/status/${e.Employee.id}`, {
                 status: true
+              }).then(response => {
+                return response.data;
               });
             }
           });
 
-          setOnVacation(obj);
+          setOnVacation(response.data);
       }
       } catch (error) {
         console.log(error);
@@ -92,15 +98,14 @@ export default function DashboardsPage() {
             }
           });
 
-        response.data.map((e: IDashboard) => {
+          const obj = response.data.map((e: IDashboard) => {
           const parsedStart = new Date(e.date_start).getTime();
           if(current.getTime() <= parsedStart){
-            const obj = toOut;
-            obj.push(e);
-            setToOut(obj);
+            return e;
           }
+          // setToOut(obj);
         });
-        console.log(toOut);
+        setToOut(obj)
       }
       } catch(error) {
         console.log(error);
@@ -108,7 +113,7 @@ export default function DashboardsPage() {
     }
     checkActiveEmployees();
 
-  }, [onVacation, toOut]);
+  }, []);
 
   return (
     <DashContainer>
