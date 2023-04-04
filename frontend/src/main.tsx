@@ -9,10 +9,12 @@ import './index.css';
 import Calendar from './pages/Manager/components/Calendar';
 import ErrorPage from './pages/ErrorPage';
 import Detail from './pages/Manager/Detail';
-import Home from './pages/Manager/Home';
+import ManagerHome from './pages/Manager/ManagerHome';
 import DashboardsPage from './pages/Manager/Dashboards';
 import NotificationPage from './pages/Manager/Notification';
 import CreateTeam from './pages/Manager/CreateTeam';
+import EmployeeHome from './pages/EmployeeHome/Home';
+import Notifications from './pages/EmployeeHome/Solicitation';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'manager',
-    element: <Home />,
+    element: <ManagerHome />,
     children: [
       {
         index: true,
@@ -45,6 +47,16 @@ const router = createBrowserRouter([
   {
     path: 'manager/team',
     element: <CreateTeam />
+  },
+  {
+    path: 'employee',
+    element: <EmployeeHome />,
+    children: [
+      {
+        index: true,
+        element: <Notifications />
+      }
+    ]
   }
 ]);
 
