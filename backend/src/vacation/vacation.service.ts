@@ -59,6 +59,13 @@ export class VacationService {
     if(days >=15)
       fortnigth = true;
 
+    const minus = employeeVacationData.days_remaining - days;
+    if(!fortnigth &&  minus < 15)
+        throw new HttpException(
+          `Solicitation must have a fortnigth, please request ${15 - days} or 15+ days`,
+          HttpStatus.BAD_REQUEST
+        );
+
     const vacationData: Vacation_data = {
       id: employeeVacationData.id,
       days_remaining: employeeVacationData.days_remaining - days,

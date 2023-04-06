@@ -20,6 +20,22 @@ export class TeamService {
     });
   }
 
+  async getEmployeesByTeam(team_id: number) {
+    return await this.prismaService.team_employee.findMany({
+      where: {
+        team_id
+      },
+      select: {
+        employee: {
+          select: {
+            name: true,
+            acquisitePeriod: true,
+          }
+        }
+      }
+    });
+  }
+
   async getTeamById(id: number): Promise<Team> {
     return await this.prismaService.team.findUnique({
       where: {

@@ -22,6 +22,12 @@ export class TeamController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/employees/:team_id')
+  async getEmployeeByTeam(@Param('team_id') id:string) {
+    return await this.teamService.getEmployeesByTeam(parseInt(id));
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/manager/:manager_id')
   async getTeamByManagerId(@Param('manager_id') id: string): Promise<Team | null> {
     return await this.teamService.getTeamByManagerId(parseInt(id));
