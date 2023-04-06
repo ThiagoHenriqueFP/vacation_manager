@@ -11,6 +11,7 @@ export interface IEmployee {
   status: boolean
   email: string,
   gmail?: string
+  acquisitivePeriod: boolean
 }
 
 export interface IUpdateEmployee {
