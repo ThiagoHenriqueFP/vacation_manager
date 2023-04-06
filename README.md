@@ -17,3 +17,17 @@ O projeto parte de acordo com uma demanda da empresa 'Lojas Quero Quero', em seu
 :black_nib: TypeScript
 
 :hammer: React.js
+
+### API Python
+
+:hammer: fastapi
+
+## Como executar
+
+Iniciar o banco de dados e setar a ulr no .env
+
+navegar para o backend (`cd backend`) e rodar o comando `npm run start` ou `yarn start:dev`
+
+navegar para o serviço de python (`cd ../python`) e rodar o comando `uvicorn main:app`
+
+navegar para o frontend (`cd ../frontend`) e rodar o comando `npm run start`
