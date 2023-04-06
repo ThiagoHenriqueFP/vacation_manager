@@ -1,5 +1,6 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 import axios from '../../../../services/axios';
 
 import { ImCancelCircle, ImCalendar } from 'react-icons/im';
@@ -8,8 +9,6 @@ import { DefaultButton } from '../../../../components/DefaultButton/styled';
 
 import { INotification } from '../../../../types/INotifications';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store';
 import RejectModal from '../ModalReject';
 
 export default function NotificationList(props: any) {
@@ -40,7 +39,7 @@ export default function NotificationList(props: any) {
         }
         )
         .then(response => setNotifications(response.data))
-        .catch(error => console.log(error));
+        .catch(error => console.log(error.response.data));
       }
   }, [notifications]);
 
@@ -84,7 +83,7 @@ export default function NotificationList(props: any) {
       }
     )
       .then(response => console.log(response))
-      .catch(error => console.log(error));
+      .catch(error => console.log(error.response.data));
 
       updateState(id);
   }
@@ -116,7 +115,7 @@ export default function NotificationList(props: any) {
         </span>
         <br />
         {!props.isPending && <span className='strong'>{e.status > 0 ? 'Aceito' : e.status < 0 ? 'Rejeitado' : 'Pendente'}</span>}
-        {e.status < 1 && <span><br />Motivo: {e.reason}</span>}
+        {(e.status < 1 && !props.isPending) && <span><br />Motivo: {e.reason}</span>}
         {props.isPending && <ButtonContainer>
           <DefaultButton
             className='accept'

@@ -6,4 +6,5 @@ export interface IEmployee {
   registration: string,
   date_started: Date,
   status: boolean;
+  acquisitivePeriod: boolean,
 }
