@@ -70,6 +70,13 @@ export default function Notifications () {
     ? new Date(vacationData?.date_last_vacation).toLocaleString()
     : 'férias nunca solicitadas';
 
+
+  async function setFlagAcquisitivePeriod() {
+    await axios.patch(`/employee/${state.employee.id}`, {
+      acquisitivePeriod: true
+    });
+  }
+
   let acquisitivePeriod: string = 'Férias em dias';
 
   if (state.employee?.date_started) {
@@ -77,10 +84,14 @@ export default function Notifications () {
     const now = new Date().getTime();
     const diff = (now - parsedStart) / (1000 * 60 * 60 * 24 * 30 * 12);
 
-    if (diff >= 1 && diff < 2)
+    if (diff >= 1 && diff < 2){
       acquisitivePeriod = 'Você precisa tirar férias, seu primeiro período aquisitivo está vencido!';
-    else if (diff >= 2 )
+      setFlagAcquisitivePeriod();
+    }
+    else if (diff >= 2 ){
       acquisitivePeriod = 'Entre em contato com o gesto para resolver os períodos aquisitivos!';
+      setFlagAcquisitivePeriod();
+    }
 
   }
 
