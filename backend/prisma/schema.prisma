@@ -11,25 +11,25 @@ datasource db {
 }
 
 model Employee {
-  id              Int             @id @default(autoincrement())
-  name            String
-  type            Int
-  registration    String          @unique
-  password        String
-  date_started    DateTime
-  isManager       Boolean         @default(false)
-  manager_id      Int?
-  role            String
-  status          Boolean         @default(false)
-  email           String
-  gmail           String?
-  acquisitePeriod Boolean         @default(false)
-  Manager         Employee?       @relation("ManangerEmployee", fields: [manager_id], references: [id])
-  Employee        Employee[]      @relation("ManangerEmployee")
-  team            Team?
-  vacation        Vacation[]
-  team_employee   Team_employee[]
-  vacation_data   Vacation_data?
+  id                Int             @id @default(autoincrement())
+  name              String
+  type              Int
+  registration      String          @unique
+  password          String
+  date_started      DateTime
+  isManager         Boolean         @default(false)
+  manager_id        Int?
+  role              String
+  status            Boolean         @default(false)
+  email             String
+  gmail             String?
+  acquisitivePeriod Boolean         @default(false)
+  Manager           Employee?       @relation("ManangerEmployee", fields: [manager_id], references: [id])
+  Employee          Employee[]      @relation("ManangerEmployee")
+  team              Team?
+  vacation          Vacation[]
+  team_employee     Team_employee[]
+  vacation_data     Vacation_data?
 }
 
 model Team {

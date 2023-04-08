@@ -56,8 +56,12 @@ export class VacationService {
       );
 
     let fortnigth = false;
-    if(days >=15)
+    if(!employeeVacationData.fortnigth){
+      if(days >=15)
       fortnigth = true;
+    } else {
+      fortnigth = employeeVacationData.fortnigth
+    }
 
     const minus = employeeVacationData.days_remaining - days;
     if(!fortnigth &&  minus < 15)

@@ -10,6 +10,7 @@ import { DefaultButton } from '../../../../components/DefaultButton/styled';
 import { INotification } from '../../../../types/INotifications';
 
 import RejectModal from '../ModalReject';
+import { dateFormat } from '../../../../utils/dateFormat';
 
 export default function NotificationList(props: any) {
   const login = useSelector((state: RootState )=> state.login);
@@ -107,10 +108,10 @@ export default function NotificationList(props: any) {
         <br />
         <span>Inicio:
           <span className='strong'>
-            {start.toLocaleDateString()}
+            {start.toLocaleDateString('pt-br', dateFormat)}
           </span> Fim:
           <span className='strong'>
-            {end.toLocaleDateString()}
+            {end.toLocaleDateString('pt-br', dateFormat)}
           </span>
         </span>
         <br />

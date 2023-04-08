@@ -5,12 +5,15 @@ import smtplib
 from connection import postgresql_to_dataframe
 from connection import conn
 
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+from fastapi.middleware.cors import CORSMiddleware
+
+origins = ['http://127.0.0.1:5173', '*']
 
 host = 'smtp.gmail.com'
 port = 587
@@ -20,7 +23,7 @@ class Solicitation(BaseModel):
     name: str
     start: str
     end: str
-    receiver: str
+    # receiver: str
 
 
 class Report(BaseModel):
@@ -35,6 +38,14 @@ class Report(BaseModel):
 load_dotenv()
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 token = os.getenv("TOKEN")
 
@@ -51,44 +62,50 @@ async def root():
 
 @app.post("/send/workplace")
 async def sendWorplace(solicitation: Solicitation):
-    url = 'https://graph.facebook.com/v4.0/me/messages'
+    try:
+        url = 'https://graph.facebook.com/v4.0/me/messages'
 
-    data = {
-        "messaging_type": "UPDATE",
-        "recipient": {
-            "id": 100090258879499
-        },
-        "message": {
-            "text": f"O funcionário {solicitation.name} solicitou férias, iniciando na data {solicitation.start} até o dia {solicitation.end}"
+        data = {
+            "messaging_type": "UPDATE",
+            "recipient": {
+                "id": 100090258879499
+            },
+            "message": {
+                "text": f"O funcionário {solicitation.name} solicitou férias, iniciando na data {solicitation.start} até o dia {solicitation.end}"
+            }
         }
-    }
 
-    response = requests.post(url, headers=headers, json=data)
+        requests.post(url, headers=headers, json=data)
 
-    return response
+        return {"status": 200, "message": "Notificação enviada para o workplace"}
+    except (Exception) as error:
+        return {'status': 400, 'message': error}
 
 
 @app.post('/send/mail')
 async def sendNotificationForEmail(solicitation: Solicitation):
-    body = f"O funcionário {solicitation.name} solicitou férias, iniciando na data {solicitation.start} até o dia {solicitation.end}"
+    try:
+        body = f"O funcionário {solicitation.name} solicitou férias, iniciando na data {solicitation.start} até o dia {solicitation.end}"
 
-    msg = MIMEText(body, 'html')
+        msg = MIMEText(body, 'html')
 
-    sender = 'thiagop070@gmail.com'
-    password = os.getenv('PASSWORD')
+        sender = 'thiagop070@gmail.com'
+        password = os.getenv('PASSWORD')
 
-    msg['Subject'] = "Solicitação de férias"
-    msg['From'] = sender
-    msg['To'] = solicitation.receiver
+        msg['Subject'] = "Solicitação de férias"
+        msg['From'] = sender
+        msg['To'] = solicitation.receiver
 
-    s = smtplib.SMTP(host, port)
-    s.ehlo()
-    s.starttls()
-    s.login(sender, password)
-    s.sendmail(sender, solicitation.receiver, msg.as_string())
-    s.quit()
+        s = smtplib.SMTP(host, port)
+        s.ehlo()
+        s.starttls()
+        s.login(sender, password)
+        s.sendmail(sender, solicitation.receiver, msg.as_string())
+        s.quit()
 
-    return True
+        return {'status': 200, 'message': 'email enviado para o gestor'}
+    except (Exception) as error:
+        return {'status': 500, 'message': error}
 
 
 @app.post('/send/report')
@@ -135,7 +152,9 @@ async def sendReport(report: Report):
         sender = 'thiagop070@gmail.com'
         password = os.getenv('PASSWORD')
 
-        s = smtplib.SMTP(host, port)
+        print("antes de criar a conexão")
+        s = smtplib.SMTP(host, 587)
+        print("depois de criar a conexão")
         s.ehlo()
         s.starttls()
         s.login(sender, password)
@@ -144,4 +163,4 @@ async def sendReport(report: Report):
 
         return {"data": df.to_csv(sep=';', encoding='latin1')}
     except (Exception) as error:
-        return {"Status": 500, "Error": error}
+        return {"Status": 500, "Error": error.__cause__}

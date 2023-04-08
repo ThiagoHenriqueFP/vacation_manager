@@ -16,12 +16,15 @@ import Button from '../../../components/DefaultButton';
 import axios from '../../../services/axios';
 import { RootState } from '../../../store';
 import { IDashboard } from '../../../types/IDashboard';
+import { dateFormat } from '../../../utils/dateFormat';
+import ModalReport from '../components/ModalReport';
 
 export default function DashboardsPage() {
   const state = useSelector((state: RootState) => state.login);
 
   const [onVacation, setOnVacation] = useState<IDashboard []>([]);
   const [toOut, setToOut] = useState<IDashboard []>([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   const current = new Date();
 
@@ -29,7 +32,7 @@ export default function DashboardsPage() {
     if (isOut) {
       const data = obj.map((e) => {
         if(e){
-          const returnDate = new Date(e.date_end).toLocaleDateString();
+          const returnDate = new Date(e.date_end).toLocaleDateString('pt-br', dateFormat);
             return (
             <li key={e?.id}>
               <span className='medium'>{e.Employee.name}</span>
@@ -43,7 +46,7 @@ export default function DashboardsPage() {
     } else {
       const data = obj.map(e => {
         if(e){
-          const outDate = new Date(e.date_start).toLocaleDateString();
+          const outDate = new Date(e.date_start).toLocaleDateString('pt-br', dateFormat);
           return (
             <li key={e?.id}>
             <span className='medium'>{e.Employee.name}</span>
@@ -127,13 +130,10 @@ export default function DashboardsPage() {
 
       <ReportContainer>
         <span>Relatórios</span>
-        <Separator>
-          <p className="label">Período: início</p>
-          <input type="date" name="start" id="" />
-          <p className="label">Período: fim</p>
-          <input type="date" name="end" id="" />
-        </Separator>
-        <Button>Gerar Relatório {<HiDocumentReport />}</Button>
+        <span><strong>Tipo 1</strong>: historico da equipe com range de datas</span>
+        <span><strong>Tipo 2</strong>: historico da equipe</span>
+        <span><strong>Tipo 3</strong>: historico de empregado com range de datas</span>
+        <Button onClick={() => setIsVisible(true)}>Gerar Relatório {<HiDocumentReport />}</Button>
       </ReportContainer>
 
       <ReturnContainer>
@@ -151,6 +151,7 @@ export default function DashboardsPage() {
           : <ul>{renderList(toOut, false)}</ul>
         }
       </ToOutContainer>
+      {isVisible && <ModalReport isVisible={isVisible} onClose={setIsVisible}/>}
     </DashContainer>
   );
 }

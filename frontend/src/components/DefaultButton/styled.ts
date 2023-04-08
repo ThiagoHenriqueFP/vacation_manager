@@ -23,6 +23,10 @@ export const DefaultButton= styled.button<any>`
     outline: none;
   }
 
+  :disabled {
+    background: grey;
+  }
+
   > a {
     text-decoration: none;
     color: inherit;

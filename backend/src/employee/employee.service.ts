@@ -50,16 +50,30 @@ export class EmployeeService {
   }
 
   async updateEmployee(id: number, data: IUpdateEmployee): Promise<Employee> {
-    const {date_started, ...rest} = data;
-    return await this.prisma.employee.update({
-      where: {
-        id,
-      },
-      data: {
-        ...rest,
-        date_started: new Date(date_started)
-      }
-    });
+    const {date_started, acquisitivePeriod, ...rest} = data;
+
+    if (date_started) {
+      return await this.prisma.employee.update({
+        where: {
+          id,
+        },
+        data: {
+          ...rest,
+          date_started: new Date(date_started)
+        }
+      });
+    }
+
+    if(acquisitivePeriod) {
+      return await this.prisma.employee.update({
+        where: {
+          id,
+        },
+        data: {
+          acquisitivePeriod
+        }
+      });
+    }
   }
 
   async getAllEmployees(query?: string): Promise<Employee[]> {
@@ -68,9 +82,15 @@ export class EmployeeService {
 
       return await this.prisma.employee.findMany({
         where: {
-          registration: {
-            contains: query
-          }
+          OR: [{
+            registration: {
+              contains: query
+            }
+          },{
+            name: {
+              contains: query
+            }
+          }]
         }
       });
   }

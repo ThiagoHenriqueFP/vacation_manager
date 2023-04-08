@@ -59,7 +59,6 @@ export default function ModalRegisterEmployee ({isVisible, onClose}: IModalRegis
     }
 
     try {
-      console.log("entrou no segundo")
       await axios.post(`/team/insert`, {
         employee_id: id,
         team_id: state.team?.id

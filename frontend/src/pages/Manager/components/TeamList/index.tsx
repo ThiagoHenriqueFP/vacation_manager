@@ -68,6 +68,7 @@ export default function TeamList() {
           <small>Tipo: {el.employee.type ? 'PJ' : 'CLT' }</small>
           <small>{el.employee.role}</small>
           <small>Status: <strong>{el.employee.status ? 'De ferias': 'Ativo'}</strong></small>
+          {el.employee.acquisitivePeriod && <span>!</span>}
           <DefaultButton
             clasName="remove"
             onClick={(e: React.SyntheticEvent) => handleRemove(e, el)}

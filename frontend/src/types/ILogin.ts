@@ -8,6 +8,8 @@ export interface ILogin {
     date_started: Date;
     isManager: boolean;
     manager_id: number;
+    email: string;
+    gmail: string;
   };
   team?: {
     id: number,

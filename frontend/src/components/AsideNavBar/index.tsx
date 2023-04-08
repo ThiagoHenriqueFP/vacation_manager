@@ -11,13 +11,11 @@ import { logout } from '../../store/login.slice';
 
 interface IAsideNavBar {
   // 1 -> manager | 0 -> employee
+  isManager: boolean;
   name: string;
+  subTeam: string;
   team: string;
   avatar: string;
-
-  subTeam?: string;
-  employeeOnTeam?: number;
-  employeeOnVacation?: number;
 }
 
 export default function AssideNavBar({
@@ -25,6 +23,7 @@ export default function AssideNavBar({
   name,
   team,
   subTeam,
+  isManager,
 }:IAsideNavBar ) {
 
   const dispatch = useDispatch();
@@ -36,13 +35,8 @@ export default function AssideNavBar({
     return navigate('/');
   }
 
-  return (
-    <NavContainer>
-      <Avatar src={avatar}/>
-      <Separator>
-        <Info>{name}</Info>
-        <Info>Equipe: <Info className='strong'>{team} {subTeam}</Info> </Info>
-      </Separator>
+  function managerOptions () {
+    return (
       <Separator>
         <Link to=''><FaHome />Página inicial</Link>
         <Link to='details'><FaUsersCog />Gerenciar equipe</Link>
@@ -52,6 +46,27 @@ export default function AssideNavBar({
           <MdOutlineLogout /> <span>Logout</span>
         </div>
       </Separator>
+    );
+  }
+
+  function employeeOptions () {
+    return (
+      <Separator>
+        <div className="logout" onClick={e => handleLogout(e)}>
+          <MdOutlineLogout /> <span>Logout</span>
+        </div>
+      </Separator>
+    );
+  }
+
+  return (
+    <NavContainer>
+      <Avatar src={avatar}/>
+      <Separator>
+        <Info>{name}</Info>
+        <Info>Equipe: <Info className='strong'>{`${team} ${subTeam}`}</Info> </Info>
+      </Separator>
+      {isManager ? managerOptions() : employeeOptions()}
     </NavContainer>
   );
 }

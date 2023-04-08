@@ -18,8 +18,8 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
-  height:100%;
-  width: 100%;
+  min-height:100%;
+  min-width: 100%;
 
   z-index: 1;
 `;

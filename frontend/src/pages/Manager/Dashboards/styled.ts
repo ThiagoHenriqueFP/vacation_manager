@@ -5,7 +5,6 @@ export const DashContainer = styled(Container)`
   margin: auto;
   padding: 32px;
   width: 60%;
-  height: fit-content;
 
   display: grid;
   grid-template-rows: min-content;
@@ -18,7 +17,12 @@ export const DashContainer = styled(Container)`
   grid-auto-columns: minmax(48px, auto);
 
   div {
+    max-height: 80%;
     margin-bottom: 16px;
+
+    canvas {
+      margin: auto;
+    }
   }
 
   ul {
@@ -110,11 +114,14 @@ export const ReportContainer = styled(Container)`
 export const ReturnContainer = styled(Container)`
   grid-column-start: 2;
   grid-row-start: 2;
+
+  overflow-y: auto;
 `;
 
 export const ToOutContainer = styled(Container)`
   grid-column-start: 2;
   grid-row-start: 3;
+  overflow-y: auto;
 `;
 
 export const Separator = styled.div`

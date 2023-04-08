@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { NotificationContainer, ButtonSolicitation, VacationDataContainer, UList } from './styled'
 import { INotification } from '../../../types/INotifications';
@@ -7,22 +7,17 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { IVacationData } from '../../../types/IVacationData';
 import ModalSolicitation from '../ModalSolicitation';
+import { dateFormat } from '../../../utils/dateFormat';
 
 export default function Notifications () {
   const state = useSelector((state: RootState) => state.login);
-
-  const dateFormat = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  };
 
   const [notifications, setNotifications] = useState<INotification []>([]);
   const [vacationData, setVacationData] = useState<IVacationData>();
   const [isVisible, setIsVisible] = useState(false);
   const [canGetVacation, setCanGetVacation] = useState(false);
 
-  useEffect(() => {
+  useMemo(() => {
     async function notificationsData() {
       const { data }: {data: INotification[]} =  await axios.get(`/vacation/employee/${state.employee?.id}`,
       {
@@ -54,7 +49,7 @@ export default function Notifications () {
       <li key={e.id}>
         <span>{`De ${parsedStart} à ${parsedEnd}`}</span>
         <span>Status: <strong>{ e.status && e.status > 0 ? 'Aprovada' : e.status && e.status < 0 ? 'Negada' :'Pendente'}</strong></span>
-        {e.status && e.status >= 0? '' : <span>{e.description}</span>}
+        {e.status && e.status >= 0? '' : <span>{e.reason}</span>}
       </li>
     );
   });
@@ -74,25 +69,26 @@ export default function Notifications () {
   async function setFlagAcquisitivePeriod() {
     await axios.patch(`/employee/${state.employee.id}`, {
       acquisitivePeriod: true
+    }, {
+      headers: {
+        Authorization: `Bearer ${state.access_token}`
+      }
     });
   }
 
   let acquisitivePeriod: string = 'Férias em dias';
 
-  if (state.employee?.date_started) {
-    const parsedStart = new Date(state.employee?.date_started).getTime();
-    const now = new Date().getTime();
-    const diff = (now - parsedStart) / (1000 * 60 * 60 * 24 * 30 * 12);
+  const parsedStart = new Date(parsedLastVacation).getTime();
+  const now = new Date().getTime();
+  const diff = (now - parsedStart) / (1000 * 60 * 60 * 24 * 30 * 12);
 
-    if (diff >= 1 && diff < 2){
-      acquisitivePeriod = 'Você precisa tirar férias, seu primeiro período aquisitivo está vencido!';
-      setFlagAcquisitivePeriod();
-    }
-    else if (diff >= 2 ){
-      acquisitivePeriod = 'Entre em contato com o gesto para resolver os períodos aquisitivos!';
-      setFlagAcquisitivePeriod();
-    }
-
+  if (diff >= 1 && diff < 2){
+    acquisitivePeriod = 'Você precisa tirar férias, seu primeiro período aquisitivo está vencido!';
+    setFlagAcquisitivePeriod();
+  }
+  else if (diff >= 2 ){
+    acquisitivePeriod = 'Entre em contato com o gesto para resolver os períodos aquisitivos!';
+    setFlagAcquisitivePeriod();
   }
 
   return (

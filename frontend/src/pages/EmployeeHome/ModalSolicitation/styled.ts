@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { boxShadow, Container } from '../../../config/styles';
+import { boxShadow, Container, containerColor } from '../../../config/styles';
 
 export const ContainerModal = styled.div`
   position: fixed;
@@ -21,7 +21,14 @@ export const ContainerModal = styled.div`
   z-index: 1;
 `;
 
-export const ModalBody = styled(Container)`
+export const ModalBody = styled.form`
+  padding: 24px;
+  box-shadow: ${boxShadow};
+  border: 0;
+  border-radius: 20px;
+
+  background: ${containerColor};
+
   margin:auto;
   max-width: fit-content;
 

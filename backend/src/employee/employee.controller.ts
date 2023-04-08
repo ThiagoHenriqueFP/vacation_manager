@@ -21,7 +21,7 @@ export class EmployeeController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAllEmployee(@Query('search') search): Promise<Employee[]> {
+  async getAllEmployee(@Query('search') search: string): Promise<Employee[]> {
     return await this.employeeService.getAllEmployees(search);
   }
 

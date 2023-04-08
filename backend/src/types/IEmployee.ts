@@ -24,5 +24,6 @@ export interface IUpdateEmployee {
   role: string,
   status: boolean
   email: string,
-  gmail?: string
+  gmail?: string,
+  acquisitivePeriod: boolean
 }

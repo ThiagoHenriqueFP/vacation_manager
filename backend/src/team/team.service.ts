@@ -29,7 +29,7 @@ export class TeamService {
         employee: {
           select: {
             name: true,
-            acquisitePeriod: true,
+            acquisitivePeriod: true,
           }
         }
       }
