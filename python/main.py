@@ -15,9 +15,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 origins = ['http://127.0.0.1:5173', '*']
 
-host = 'smtp.gmail.com'
-port = 587
-
 
 class Solicitation(BaseModel):
     name: str
@@ -97,7 +94,8 @@ async def sendNotificationForEmail(solicitation: Solicitation):
     msg['To'] = solicitation.receiver
 
     # s = smtplib.SMTP(host, port)
-    s = smtplib.SMTP('mail.google.com', 587)
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    # s = smtplib.SMTP('mail.google.com', 587)
     print("depois de criar a conexão")
     s.ehlo()
     s.starttls()
@@ -155,7 +153,7 @@ async def sendReport(report: Report):
     password = os.getenv('PASSWORD')
 
     print("antes de criar a conexão")
-    s = smtplib.SMTP(host, 587)
+    s = smtplib.SMTP('smtp.gmail.com', 587)
     print("depois de criar a conexão")
     s.ehlo()
     s.starttls()
