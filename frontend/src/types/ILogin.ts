@@ -10,6 +10,7 @@ export interface ILogin {
     manager_id: number;
     email: string;
     gmail: string;
+    aquisitivePeriod: boolean;
   };
   team?: {
     id: number,

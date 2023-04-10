@@ -64,7 +64,7 @@ export default function AssideNavBar({
       <Avatar src={avatar}/>
       <Separator>
         <Info>{name}</Info>
-        <Info>Equipe: <Info className='strong'>{`${team} ${subTeam}`}</Info> </Info>
+        <Info>Equipe: <Info className='strong'>{`${team} ${subTeam??''}`}</Info> </Info>
       </Separator>
       {isManager ? managerOptions() : employeeOptions()}
     </NavContainer>

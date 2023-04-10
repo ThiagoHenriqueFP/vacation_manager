@@ -54,20 +54,19 @@ export default function Notifications () {
     );
   });
 
-  if(state.employee?.date_started){
-    const started = new Date(state.employee?.date_started);
-    started.setFullYear(started.getFullYear() + 1);
-    if(started.getTime() >= new Date().getTime())
-      setCanGetVacation(true);
-  }
-
   const parsedLastVacation = vacationData?.date_last_vacation
     ? new Date(vacationData?.date_last_vacation).toLocaleString()
     : 'férias nunca solicitadas';
 
+  if(state.employee?.date_started){
+    const started = new Date(state.employee?.date_started);
+    started.setFullYear(started.getFullYear() + 1);
+    if(started.getTime() >= new Date().getTime() && canGetVacation == false)
+      setCanGetVacation(true);
+  }
 
   async function setFlagAcquisitivePeriod() {
-    await axios.patch(`/employee/${state.employee.id}`, {
+    await axios.patch(`/employee/${state.employee?.id}`, {
       acquisitivePeriod: true
     }, {
       headers: {
@@ -77,6 +76,9 @@ export default function Notifications () {
   }
 
   let acquisitivePeriod: string = 'Férias em dias';
+
+  if(typeof parsedLastVacation === 'string' && !canGetVacation)
+    setFlagAcquisitivePeriod();
 
   const parsedStart = new Date(parsedLastVacation).getTime();
   const now = new Date().getTime();
